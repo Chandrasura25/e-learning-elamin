@@ -1,6 +1,6 @@
-import reactLogo from './assets/logo.png'
 import { Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
@@ -8,6 +8,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/teacher-dashboard" element={<Dashboard />} />
       </Routes>
     </>
   )
