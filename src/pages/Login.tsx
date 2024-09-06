@@ -1,28 +1,28 @@
-import { useState } from 'react';
-import style from '../styles/login.module.css';
-import Logo from '../assets/logo.png';
-import { toast } from 'react-toastify';
-import axios from '@/api/axios';
+import { useState } from "react";
+import style from "../styles/login.module.css";
+import Logo from "../assets/logo.png";
+import { toast } from "react-toastify";
+import { useAuth } from '@/contexts/AuthContext';  // Importing useAuth to access login function
+
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login } = useAuth();  
 
   const validate = () => {
     let errors = {};
 
-    if (!email) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Email address is invalid';
+    if (!username) {
+      errors.username = "Username is required";
     }
 
     if (!password) {
-      errors.password = 'Password is required';
-    } else if (password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
+      errors.password = "Password is required";
+    } else if (password.length < 5) {
+      errors.password = "Password must be at least 5 characters";
     }
 
     return errors;
@@ -39,12 +39,13 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/login-teacher', { email, password });
-      console.log(response.data);
-      localStorage.setItem('token', response.data.token);
-
-      // Handle successful login (e.g., redirect or update UI)
+      // Call the login function from AuthContext
+      await login(username, password);  
+      
+      // Show success message if login is successful
     } catch (error) {
+      // Handle error and display message
+      toast.error(error.response?.data?.message || "Login failed");
       setErrors({ form: error.message });
     } finally {
       setIsSubmitting(false);
@@ -60,14 +61,16 @@ const Login = () => {
         <h2>EL-AMIN INTERNATIONAL SCHOOL</h2>
         <form onSubmit={handleSubmit} className={style.input}>
           <div className={style.inputBox}>
-            <label>Email</label>
+            <label>Username</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@xyz.com"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
             />
-            {errors.email && <p className={style.error}>{errors.email}</p>}
+            {errors.username && (
+              <p className={style.error}>{errors.username}</p>
+            )}
           </div>
           <div className={style.inputBox}>
             <label htmlFor="password">Password</label>
@@ -77,13 +80,14 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="*******"
             />
-            {errors.password && <p className={style.error}>{errors.password}</p>}
+            {errors.password && (
+              <p className={style.error}>{errors.password}</p>
+            )}
           </div>
-          {errors.form && <p className={style.error}>{errors.form}</p>}
           <div className={style.inputBox}>
             <input
               type="submit"
-              value={isSubmitting ? 'Signing In...' : 'Sign In'}
+              value={isSubmitting ? "Signing In..." : "Sign In"}
               disabled={isSubmitting}
             />
           </div>
