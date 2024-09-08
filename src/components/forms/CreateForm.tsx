@@ -151,6 +151,48 @@ export const CreateForm = () => {
                   )}
                 />
             </div>
+            <div className="flex md:flex-row flex-col gap-4 w-full">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormItem
+                      className={`flex flex-col w-full md:w-1/2 items-start ${style.inputBox}`}
+                    >
+                      <FormLabel className={style.label}>Topic</FormLabel>
+                      <FormControl>
+                        <input
+                          className={`border-none focus:border-none focus:outline-none focus:ring-0 ${style.input}`}
+                          placeholder="Algebra"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="username"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormItem
+                      className={`flex flex-col w-full md:w-1/2 items-start ${style.inputBox}`}
+                    >
+                        <FormLabel className={style.label}>Description</FormLabel>
+                        <FormControl>
+                          <textarea
+                            className={`border-none focus:border-none focus:outline-none focus:ring-0 ${style.input}`}
+                            placeholder="Write a brief description of the lesson."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>
