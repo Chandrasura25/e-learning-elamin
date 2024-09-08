@@ -1,20 +1,20 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { axiosInstance } from '@/api/axios';
+import React, { createContext, useState, useEffect } from "react";
+import { axiosInstance } from "@/api/axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Holds the user object
   const [token, setToken] = useState(null);
-  const [role, setRole] = useState(null); // Holds the dynamically determined role
+  const [role, setRole] = useState(null); // Holds the role directly from the server
   const [loading, setLoading] = useState(true);
-  const router = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
 
     if (storedToken) {
       try {
@@ -24,13 +24,13 @@ export const AuthProvider = ({ children }) => {
         if (decodedToken?.exp * 1000 < Date.now()) {
           logout();
         } else {
-          // Token is valid, set user, token, and dynamically determine the role
+          // Token is valid, set user, token, and role from localStorage
           setToken(storedToken);
           setUser(decodedToken);
-          setRole(getRoleFromUser(decodedToken));
+          setRole(localStorage.getItem("role")); // Retrieve role from localStorage
         }
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error("Error decoding token:", error);
         logout(); // Logout if token is invalid
       }
     }
@@ -38,46 +38,43 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Dynamically determine the role based on the presence of certain objects
-  const getRoleFromUser = (user) => {
-    if (user?.teacher) {
-      return 'teacher';
-    } else if (user?.superadmin) {
-      return 'supervisor';
-    }
-    return null;
-  };
-
   const login = async (username, password) => {
     try {
-      const response = await axiosInstance.post('/login-teacher', { username, password });
-      const { token, user } = response.data;
+      const response = await axiosInstance.post("/login-teacher", {
+        username,
+        password,
+      });
+      const { token, user, role } = response.data; // Ensure the backend sends the role directly
+      console.log(response.data);
 
-      // Save the token in localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      // Save the token, user, and role in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", role); // Store role in localStorage
       toast.success("Login successful!");
 
-      // Set token, user, and dynamically determine the role
+      // Set token, user, and role in state
       setToken(token);
       setUser(user);
-      setRole(getRoleFromUser(user));
+      setRole(role);
 
       // Redirect based on role
-      if (getRoleFromUser(user) === 'teacher') {
-        router('/teacher-dashboard');
-      } else if (getRoleFromUser(user) === 'supervisor') {
-        router('/supervisor-dashboard');
+      if (role === "Teacher") {
+        navigate("/teacher-dashboard");
+      } else if (role === "superadmin") {
+        navigate("/superadmin-dashboard");
       }
     } catch (error) {
-      console.error('Login error', error);
+      console.error("Login error", error);
+      toast.error("Invalid credentials");
     }
   };
 
   const logout = () => {
-    // Clear token from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    // Clear token, user, and role from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
 
     // Clear user, token, and role state
     setToken(null);
@@ -85,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     setRole(null);
 
     // Redirect to login page
-    router('/');
+    navigate("/");
   };
 
   const isTokenExpired = () => {
@@ -94,13 +91,15 @@ export const AuthProvider = ({ children }) => {
       const decodedToken = jwtDecode(token);
       return decodedToken.exp * 1000 < Date.now();
     } catch (error) {
-      console.error('Error decoding token:', error);
+      console.error("Error decoding token:", error);
       return true; // Consider token expired if decoding fails
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, role, login, logout, isTokenExpired }}>
+    <AuthContext.Provider
+      value={{ user, token, role, login, logout, isTokenExpired }}
+    >
       {!loading ? children : <p>Loading...</p>}
     </AuthContext.Provider>
   );
