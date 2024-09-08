@@ -11,13 +11,13 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
-        {role === "superadmin" ? (
-          <Route path="/superadmin-dashboard" element={<Dash />} />
-        ) : (
-          <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout />}>
+          {role === "superadmin" ? (
+            <Route path="/supervisor-dashboard" element={<Dash />} />
+          ) : (
             <Route path="/teacher-dashboard" element={<Dashboard />} />
-          </Route>
-        )}
+          )}
+        </Route>
       </Routes>
     </>
   );
