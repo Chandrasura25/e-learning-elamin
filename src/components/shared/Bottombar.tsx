@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 function Bottombar() {
   const { pathname } = useLocation();
   const [links, setLinks] = useState([]);
-  const { logout, user, role } = useAuth();
+  const { user, role } = useAuth();
   useEffect(() => {
     const selectedSidebarLinks =
       role === "counsellor" ? supervisorSidebarLinks : sidebarLinks;
