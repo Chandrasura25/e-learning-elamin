@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import { axiosInstance } from "@/api/axios";
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Watch } from "react-loader-spinner";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -15,29 +15,25 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-
-    if (storedToken) {
-      try {
-        const decodedToken = jwtDecode(storedToken);
-        console.log(decodedToken);
-
-        // Check if the token is expired
-        if (decodedToken?.exp * 1000 < Date.now()) {
-          logout(); // Logout if token is expired
-        } else {
-          // Token is still valid, so keep the user logged in
-          setToken(storedToken);
-          setUser(decodedToken);
-          setRole(localStorage.getItem("role")); // Retrieve role from localStorage
-        }
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        logout(); // Logout if token is invalid
+    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("role");
+  
+    if (storedToken && storedUser && storedRole) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+      setRole(storedRole);
+  
+      // Automatically redirect based on role
+      if (storedRole === "Teacher") {
+        navigate("/teacher-dashboard");
+      } else if (storedRole === "superadmin") {
+        navigate("/supervisor-dashboard");
       }
     }
-
-    setLoading(false); // Stop loading once token check is done
-  }, []);
+  
+    setLoading(false);
+  }, [navigate]);
+  
 
   const login = async (username, password) => {
     try {
@@ -86,21 +82,8 @@ export const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
-  const isTokenExpired = () => {
-    if (!token) return true;
-    try {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.exp * 1000 < Date.now();
-    } catch (error) {
-      console.error("Error decoding token:", error);
-      return true; // Consider token expired if decoding fails
-    }
-  };
-
   return (
-    <AuthContext.Provider
-      value={{ user, token, role, login, logout, isTokenExpired }}
-    >
+    <AuthContext.Provider value={{ user, token, role, login, logout }}>
       {!loading ? (
         children
       ) : (
@@ -110,7 +93,7 @@ export const AuthProvider = ({ children }) => {
             height="200"
             width="200"
             radius="48"
-            color="#4fa94d"
+            color="#B43330"
             ariaLabel="watch-loading"
             wrapperStyle={{}}
             wrapperClass=""
