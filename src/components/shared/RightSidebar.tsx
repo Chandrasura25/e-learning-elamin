@@ -10,7 +10,7 @@ function RightSidebar() {
   return (
     <>
       {role === "Teacher" ? (
-        <section className="custom-scrollbar grid rightsidebar">
+        <section className="custom-scrollbar rightsidebar">
           <div className="">
             <h4>Lesson Plans</h4>
             <div className={styles.container}>
