@@ -3,8 +3,7 @@ import {
   Keyboard,
   LogOut,
   Settings,
-  User,
-  UserPlus,
+  User
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,12 +35,12 @@ export default function Topbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="bg-transparent border-none hover:bg-transparent hover:text-light-2">
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    <span>{user?.firstname}</span>
+                    <img src="/images/user.svg" alt="" className="h-5 w-5 mr-1" />
+                    <span className="text-base1-semibold">{user?.firstname} {user?.lastname}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{role}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
