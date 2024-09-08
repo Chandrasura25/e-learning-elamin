@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     }
   
     setLoading(false);
-  }, [navigate]);
+  }, []);
   
 
   const login = async (username, password) => {
