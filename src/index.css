@@ -321,16 +321,8 @@
   filter: blur(175px);
 }
 
-.footer-gradient {
-  position: absolute;
-  width: 500px;
-  height: 100px;
-  left: 37%;
-  bottom: 0;
-
-  background: #65c4fa;
-  filter: blur(150px);
-}
-.formBg{
-  background: linear-gradient(-30deg,#43a5f6 0%,#3a78b7 50%,#fff 50%,#607d8b 100%); 
+.glass{
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
