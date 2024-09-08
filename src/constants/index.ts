@@ -5,7 +5,7 @@ export const sidebarLinks = [
     label: "Home",
   },
   {
-    imgURL: "/images/shuffle.svg",
+    imgURL: "/images/explore.svg",
     route: "/explore",
     label: "Explore",
   },
@@ -16,23 +16,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/images/create.svg",
-    route: "/create-post",
-    label: "Post Confession",
-  },
-  {
-    imgURL: "/images/chat.svg",
-    route: "/chat",
-    label: "Chat",
-  },
-  {
-    imgURL: "/images/community.svg",
-    route: "/rooms",
-    label: "Rooms",
-  },
-  {
-    imgURL: "/images/counsellor.svg",
-    route: "/counsellor",
-    label: "Counsellors",
+    route: "/create-note",
+    label: "Create Note",
   },
 ];
 
