@@ -3,7 +3,7 @@ import { axiosInstance } from "@/api/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { Watch } from "react-loader-spinner";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -101,7 +101,22 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{ user, token, role, login, logout, isTokenExpired }}
     >
-      {!loading ? children : <p>Loading...</p>}
+      {!loading ? (
+        children
+      ) : (
+        <div className="h-screen w-full flex justify-center items-center">
+          <Watch
+            visible={true}
+            height="200"
+            width="200"
+            radius="48"
+            color="#4fa94d"
+            ariaLabel="watch-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };
