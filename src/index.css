@@ -320,7 +320,11 @@
   background: #8d39a3;
   filter: blur(175px);
 }
-
+.bg{
+  background: #ebf5fc;
+  box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.8),
+  5px 5px 10px rgba(0, 0, 0, 0.1);
+}
 .glass{
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
