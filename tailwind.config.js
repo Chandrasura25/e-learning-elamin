@@ -228,7 +228,9 @@
         "light-2": "#EFEFEF",
         "light-3": "#7878A3",
         "light-4": "#5C5C7B",
+        "light-5": "#ebf5fc",
         "gray-1": "#697C89",
+        "red-1":"#B43330",
         glassmorphism: "rgba(16, 16, 18, 0.60)",
       },
        boxShadow: {
