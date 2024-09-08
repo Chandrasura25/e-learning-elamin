@@ -20,11 +20,12 @@ export const AuthProvider = ({ children }) => {
       try {
         const decodedToken = jwtDecode(storedToken);
         console.log(decodedToken);
+
         // Check if the token is expired
         if (decodedToken?.exp * 1000 < Date.now()) {
-          logout();
+          logout(); // Logout if token is expired
         } else {
-          // Token is valid, set user, token, and role from localStorage
+          // Token is still valid, so keep the user logged in
           setToken(storedToken);
           setUser(decodedToken);
           setRole(localStorage.getItem("role")); // Retrieve role from localStorage
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    setLoading(false);
+    setLoading(false); // Stop loading once token check is done
   }, []);
 
   const login = async (username, password) => {
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       if (role === "Teacher") {
         navigate("/teacher-dashboard");
       } else if (role === "superadmin") {
-        navigate("/superadmin-dashboard");
+        navigate("/supervisor-dashboard");
       }
     } catch (error) {
       console.error("Login error", error);
