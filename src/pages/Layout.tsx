@@ -2,7 +2,9 @@ import { motion } from "framer-motion";
 import { Outlet } from "react-router-dom";
 import Topbar from "@/components/shared/Topbar";
 import { staggerContainer } from "@/utils/motion";
-import LeftSidebar from "@/components/shared/superadmin/LeftSidebar";
+import LeftSidebar from "@/components/shared/LeftSidebar";
+import Bottombar from "@/components/shared/Bottombar";
+import RightSidebar from "@/components/shared/RightSidebar";
 
 const Layout = () => {
   return (
@@ -17,14 +19,11 @@ const Layout = () => {
       <main className="flex flex-row">
         <LeftSidebar />
         <section className="main-container">
-          <Outlet /> 
+          <Outlet />
         </section>
-        {/* Right Sidebar */}
-        <aside className="right-sidebar">Right Sidebar</aside>
+        <RightSidebar/>
       </main>
-
-      {/* Bottom Sidebar */}
-      <footer className="bottom-sidebar">Bottom Sidebar</footer>
+      <Bottombar />
     </motion.div>
   );
 };
