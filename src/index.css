@@ -27,8 +27,11 @@
 }
 @layer components {
   /* main */
+  body{
+    @apply antialiased bg-light-5;
+  }
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-28 max-md:pb-32 sm:px-10 bg-[#000];
+    @apply flex min-h-screen flex-1 flex-col px-6 pb-10 pt-28 max-md:pb-32 sm:px-10 ;
   }
  
   .bg-main{
