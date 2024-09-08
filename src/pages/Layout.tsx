@@ -7,23 +7,18 @@ import LeftSidebar from "@/components/shared/superadmin/LeftSidebar";
 const Layout = () => {
   return (
     <motion.div
-      className="h-screen w-full background-image"
+      className="h-screen w-full"
       variants={staggerContainer()}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
     >
       <Topbar />
-
       <main className="flex flex-row">
-        {/* Left Sidebar */}
         <LeftSidebar />
-
-        {/* Main Content Area */}
-        <main className="content">
-          <Outlet /> {/* This will render the child routes */}
-        </main>
-
+        <section className="main-container">
+          <Outlet /> 
+        </section>
         {/* Right Sidebar */}
         <aside className="right-sidebar">Right Sidebar</aside>
       </main>
