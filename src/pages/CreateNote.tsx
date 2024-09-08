@@ -1,8 +1,12 @@
-import React from 'react'
+import { CreateForm } from '@/components/forms/CreateForm';
 
 const CreateNote = () => {
   return (
-    <div>CreateNote</div>
+    <div>
+        <div className="">
+            <CreateForm />
+        </div>
+    </div>
   )
 }
 
