@@ -15,12 +15,7 @@ import { FormField } from "../ui/form";
 
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
-  date: z.string().min(1, "Date is required").refine(
-    (val) => !isNaN(Date.parse(val)), 
-    {
-      message: "Invalid date format",
-    }
-  ),
+  date: z.date({ required_error: "Date is required" }),
   subject: z.string().min(1, "Subject is required"),
   topic: z.string().min(1, "Topic is required"),
   subTopic: z.string().min(1, "Sub-topic is required"),
