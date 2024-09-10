@@ -37,19 +37,4 @@ export const supervisorSidebarLinks = [
     route: "/profile",
     label: "Profile",
   },
-  {
-    imgURL: "/images/chat.svg",
-    route: "/chat",
-    label: "Chat",
-  },
-  {
-    imgURL: "/images/community.svg",
-    route: "/rooms",
-    label: "Rooms",
-  },
-  {
-    imgURL: "/images/withdraw.svg",
-    route: "/withdraw",
-    label: "Withdraw",
-  },
 ];
