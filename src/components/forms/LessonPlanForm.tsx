@@ -96,7 +96,7 @@ export function LessonPlanForm() {
     const classId = e.target.value;
     setSelectedClass(classId);
     const selectedClass = classes.find((c) => c.enrolclass?.id === Number(classId));
-    setArms(selectedClass?.arms || []); // Assuming each class has an 'arms' array
+    setArms(selectedClass?.arms || []);
   };
   const {
     register,
@@ -198,8 +198,8 @@ export function LessonPlanForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Week and Date */}
-        <div className="flex space-x-4">
-          <div className="flex-1">
+        <div className="flex sm:flex-row flex-col sm:space-x-4">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Week
             </label>
@@ -214,7 +214,7 @@ export function LessonPlanForm() {
             )}
           </div>
 
-          <div className="flex-1">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Date
             </label>
@@ -289,8 +289,8 @@ export function LessonPlanForm() {
         </div>
 
         {/* Class and Arm Dropdowns */}
-        <div className="flex space-x-4">
-          <div className="flex-1">
+        <div className="flex sm:flex-row flex-col sm:space-x-4">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Class
             </label>
@@ -311,7 +311,7 @@ export function LessonPlanForm() {
             )}
           </div>
 
-          <div className="flex-1">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Arm
             </label>
@@ -332,8 +332,8 @@ export function LessonPlanForm() {
           </div>
         </div>
         {/* Duration, and Age Group */}
-        <div className="flex space-x-4">
-          <div className="flex-1">
+        <div className="flex sm:flex-row flex-col sm:space-x-4">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Duration
             </label>
@@ -347,7 +347,7 @@ export function LessonPlanForm() {
               <p className="text-red-600 text-sm">{errors.duration.message}</p>
             )}
           </div>
-          <div className="flex-1">
+          <div className="sm:flex-1">
             <label className="block text-sm font-medium text-gray-700">
               Age Group
             </label>
