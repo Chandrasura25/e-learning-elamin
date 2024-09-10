@@ -11,10 +11,16 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { FormField } from "../ui/form";
 
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
-  date: z.string().min(1, "Date is required"),
+  date: z.string().min(1, "Date is required").refine(
+    (val) => !isNaN(Date.parse(val)), 
+    {
+      message: "Invalid date format",
+    }
+  ),
   subject: z.string().min(1, "Subject is required"),
   topic: z.string().min(1, "Topic is required"),
   subTopic: z.string().min(1, "Sub-topic is required"),
@@ -95,7 +101,9 @@ export function LessonPlanForm() {
   const handleClassChange = (e) => {
     const classId = e.target.value;
     setSelectedClass(classId);
-    const selectedClass = classes.find((c) => c.enrolclass?.id === Number(classId));
+    const selectedClass = classes.find(
+      (c) => c.enrolclass?.id === Number(classId)
+    );
     setArms(selectedClass?.arms || []);
   };
   const {
@@ -103,6 +111,7 @@ export function LessonPlanForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm({
     resolver: zodResolver(lessonSchema),
     defaultValues: {
@@ -218,22 +227,32 @@ export function LessonPlanForm() {
             <label className="block text-sm font-medium text-gray-700">
               Date
             </label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="justify-start flex items-center text-left font-normal w-full p-2 border rounded-md">
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={(d) => setDate(d)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <FormField
+              control={control}
+              name="date"
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="justify-start flex items-center text-left font-normal w-full p-2 border rounded-md">
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate); // Update local date state
+                        field.onChange(selectedDate); // Trigger form validation
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
+            />
+
             {errors.date && (
               <p className="text-red-600 text-sm">{errors.date.message}</p>
             )}
