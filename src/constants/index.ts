@@ -1,7 +1,7 @@
 export const sidebarLinks = [
   {
     imgURL: "/images/home.svg",
-    route: "/dashboard",
+    route: "/teacher-dashboard",
     label: "Home",
   },
   {
@@ -24,7 +24,7 @@ export const sidebarLinks = [
 export const supervisorSidebarLinks = [
   {
     imgURL: "/images/home.svg",
-    route: "/dashboard",
+    route: "/supervisor-dashboard",
     label: "Home",
   },
   {
