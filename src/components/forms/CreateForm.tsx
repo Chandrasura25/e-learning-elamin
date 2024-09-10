@@ -86,7 +86,7 @@ export const CreateForm = () => {
   return (
     <div className={style.body}>
       <div className={`${style.form} w-full`}>
-        <h2 className="mb-4">Create your Lesson Note</h2>
+        <h2 className="mb-4 text-heading2-bold ">Create your Lesson Note</h2>
 
         {step === 1 && (
           <Form {...formFirstStep}>
