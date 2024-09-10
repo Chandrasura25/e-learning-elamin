@@ -5,6 +5,7 @@ import { Dash } from "./pages/superadmin/Dash";
 import { useAuth } from "./contexts/AuthContext";
 import Layout from "./pages/Layout";
 import CreateNote from "./pages/CreateNote";
+import { LessonPlanForm } from "./components/forms/LessonPlanForm";
 
 function App() {
   const { role } = useAuth();
@@ -12,6 +13,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/form" element={<LessonPlanForm />} />
+
         <Route path="/" element={<Layout />}>
           {role === "superadmin" ? (
             <Route path="/supervisor-dashboard" element={<Dash />} />
