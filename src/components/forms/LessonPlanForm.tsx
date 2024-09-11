@@ -13,7 +13,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { FormField } from "../ui/form";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
-
+import { useAuth } from "@/contexts/AuthContext";
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
@@ -81,6 +81,8 @@ const lessonSchema = z.object({
 });
 
 export function LessonPlanForm() {
+  const { user } = useAuth()
+  console.log(user)
   const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
@@ -140,9 +142,16 @@ export function LessonPlanForm() {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async(data: any) => {
     console.log("Lesson Plan Data", data);
-    reset(); // Optional: Reset the form after submission
+    data.append("user", user?.id)
+    try {
+      const response = await axiosPrivate.post('/note', data);
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+    // reset(); // Optional: Reset the form after submission
   };
 
   // Helper to generate form sections for Steps
