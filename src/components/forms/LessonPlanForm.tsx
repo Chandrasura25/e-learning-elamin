@@ -22,7 +22,7 @@ const lessonSchema = z.object({
   subTopic: z.string().min(1, "Sub-topic is required"),
   duration: z.string().min(1, "Duration is required"),
   class: z.string().min(1, "Class is required"),
-  arm: z.string().min(1, "Arm is required"),
+  arm: z.string(),
   ageGroup: z.string().min(1, "Age group is required"),
   objectives: z.array(z.string()).min(1, "At least one objective is required"),
   resources: z.array(z.string()).min(1, "At least one resource is required"),
@@ -82,9 +82,9 @@ export function LessonPlanForm() {
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  })
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
   useEffect(() => {
     const getClasses = async () => {
       try {
@@ -234,12 +234,24 @@ export function LessonPlanForm() {
                   <PopoverTrigger asChild>
                     <button className="justify-start flex items-center text-left font-normal w-full p-2 border rounded-md">
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      {date?.from ? (
+                        date.to ? (
+                          <>
+                            {format(date.from, "LLL dd, y")} -{" "}
+                            {format(date.to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(date.from, "LLL dd, y")
+                        )
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
                     <Calendar
-                      mode="single"
+                      mode="range"
+                      defaultMonth={date?.from}
                       selected={date}
                       onSelect={(selectedDate) => {
                         setDate(selectedDate); // Update local date state
