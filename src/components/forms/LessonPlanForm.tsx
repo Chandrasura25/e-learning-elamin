@@ -16,7 +16,10 @@ import { DateRange } from "react-day-picker";
 
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
-  date: z.date({ required_error: "Date is required" }),
+  date: z.object({
+    from: z.date({ required_error: "From date is required" }),
+    to: z.date({ required_error: "To date is required" }).nullable(), // Allow `to` to be null if only a single date is selected
+  }),
   subject: z.string().min(1, "Subject is required"),
   topic: z.string().min(1, "Topic is required"),
   subTopic: z.string().min(1, "Sub-topic is required"),
@@ -254,8 +257,11 @@ export function LessonPlanForm() {
                       defaultMonth={date?.from}
                       selected={date}
                       onSelect={(selectedDate) => {
-                        setDate(selectedDate); // Update local date state
-                        field.onChange(selectedDate); // Trigger form validation
+                        setDate(selectedDate);
+                        field.onChange({
+                          from: selectedDate?.from || new Date(),
+                          to: selectedDate?.to || null,
+                        });
                       }}
                       initialFocus
                     />
