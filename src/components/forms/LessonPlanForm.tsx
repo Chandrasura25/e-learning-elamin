@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { FormField } from "../ui/form";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
