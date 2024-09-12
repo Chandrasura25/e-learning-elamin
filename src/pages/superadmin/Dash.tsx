@@ -5,6 +5,7 @@ import style from "@/styles/box.module.css";
 import firstBg from "@/assets/anime.gif";
 import secBg from "@/assets/allnotes.gif";
 import thirdBg from "@/assets/book.gif";
+import { BookmarkCheckIcon, BookMinusIcon } from "lucide-react";
 
 export const Dash = () => {
   const [notes, setNotes] = useState([]);
@@ -89,19 +90,22 @@ export const Dash = () => {
                 approvedNotes.slice(-3).map((note, index) => (
                   <div
                     key={index}
-                    className="relative pb-6 mb-6 border-b border-gray-200 last:border-b-0 z-10"
+                    className="relative mb-4 bg-gray-50 p-3 rounded-[16px]"
                   >
-                    <p className="text-lg font-medium text-gray-800">
-                      <span className="font-bold">User:</span>{" "}
-                      {note.user.firstname} {note.user.lastname}
-                    </p>
-                    <p className="text-gray-600">
-                      <span className="font-semibold">Week:</span> {note.week}
-                    </p>
-                    <p className="text-gray-600">
-                      <span className="font-semibold">Subject:</span>{" "}
-                      {note.subject}
-                    </p>
+                    <div className="flex gap-3">
+                      <BookmarkCheckIcon className="" />
+                      <div className="flex flex-col">
+                        <p className=" text-gray-800 text-small-medium">
+                          {note.user.firstname} {note.user.lastname}
+                        </p>
+                        <p className="text-gray-600 text-subtle-medium">
+                          {note.week}
+                        </p>
+                        <p className="text-gray-600 text-subtle-medium">
+                          {note.subject}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -123,19 +127,22 @@ export const Dash = () => {
                 unapprovedNotes.slice(-3).map((note, index) => (
                   <div
                     key={index}
-                    className="relative pb-6 mb-6 border-b border-gray-200 last:border-b-0 z-10"
+                    className="relative mb-4 bg-gray-50 p-3 rounded-[16px]"
                   >
-                    <p className="text-lg font-medium text-gray-800">
-                      <span className="font-bold">User:</span>{" "}
-                      {note.user.firstname} {note.user.lastname}
-                    </p>
-                    <p className="text-gray-600">
-                      <span className="font-semibold">Week:</span> {note.week}
-                    </p>
-                    <p className="text-gray-600">
-                      <span className="font-semibold">Subject:</span>{" "}
-                      {note.subject}
-                    </p>
+                    <div className="flex gap-3">
+                      <BookMinusIcon className="" />
+                      <div className="flex flex-col">
+                        <p className=" text-gray-800 text-small-medium">
+                          {note.user.firstname} {note.user.lastname}
+                        </p>
+                        <p className="text-gray-600 text-subtle-medium">
+                          {note.week}
+                        </p>
+                        <p className="text-gray-600 text-subtle-medium">
+                          {note.subject}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 ))
               ) : (
