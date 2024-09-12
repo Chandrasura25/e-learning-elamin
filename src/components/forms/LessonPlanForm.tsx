@@ -85,6 +85,7 @@ export function LessonPlanForm() {
   const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 7),
@@ -142,15 +143,17 @@ export function LessonPlanForm() {
   });
 
   const onSubmit = async(data: any) => {
-    console.log("Lesson Plan Data", data);
     data.append("user", user?.id)
+    setLoading(true);
     try {
       const response = await axiosPrivate.post('/note', data);
       console.log(response.data)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false);
+      // reset(); // Optional: Reset the form after submission
     }
-    // reset(); // Optional: Reset the form after submission
   };
 
   // Helper to generate form sections for Steps
