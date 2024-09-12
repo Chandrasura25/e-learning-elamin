@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -129,7 +129,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
               <DropdownMenuItem onClick={() => {navigate(`/note/${lesson.id}`)}}>
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => console.log("Edit", lesson.id)}>
+              <DropdownMenuItem onClick={() => {navigate(`/edit-note/${lesson.id}`)}}>
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => {
