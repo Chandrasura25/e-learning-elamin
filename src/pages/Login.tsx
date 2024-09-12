@@ -2,8 +2,7 @@ import { useState } from "react";
 import style from "../styles/login.module.css";
 import Logo from "../assets/logo.png";
 import { toast } from "react-toastify";
-import { useAuth } from '@/contexts/AuthContext';  // Importing useAuth to access login function
-
+import { useAuth } from '@/contexts/AuthContext'; 
 
 const Login = () => {
   const [username, setUsername] = useState("");
