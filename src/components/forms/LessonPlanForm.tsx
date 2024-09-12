@@ -81,7 +81,7 @@ const lessonSchema = z.object({
 });
 
 export function LessonPlanForm() {
-  const { user } = useAuth()
+  const { user } = useAuth();
   const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
@@ -139,14 +139,14 @@ export function LessonPlanForm() {
     },
   });
 
-  const onSubmit = async(data: any) => {
-    data.append("user", user?.id)
+  const onSubmit = async (data: any) => {
+    data.user= user?.id;
     setLoading(true);
     try {
-      const response = await axiosPrivate.post('/note', data);
-      console.log(response.data)
+      const response = await axiosPrivate.post("/note", data);
+      console.log(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
       // reset(); // Optional: Reset the form after submission
@@ -265,11 +265,22 @@ export function LessonPlanForm() {
                       defaultMonth={date?.from}
                       selected={date}
                       onSelect={(selectedDate) => {
-                        setDate(selectedDate);
-                        field.onChange({
-                          from: selectedDate?.from || new Date(),
-                          to: selectedDate?.to || null,
-                        });
+                        if (selectedDate?.from && !selectedDate.to) {
+                          // Automatically set the "to" date 7 days from "from" date
+                          const autoToDate = addDays(selectedDate.from, 7);
+                          setDate({ from: selectedDate.from, to: autoToDate });
+                          field.onChange({
+                            from: selectedDate.from,
+                            to: autoToDate,
+                          });
+                        } else {
+                          // Use the selected "from" and "to" dates if both are selected
+                          setDate(selectedDate);
+                          field.onChange({
+                            from: selectedDate?.from || null,
+                            to: selectedDate?.to || null,
+                          });
+                        }
                       }}
                       initialFocus
                     />
@@ -483,7 +494,7 @@ export function LessonPlanForm() {
             className="w-full py-2 px-4 bg-red-1 hover:bg-red-500 text-white font-semibold rounded-md"
             disabled={loading}
           >
-            {loading? "Submitting..." : "Submit Lesson Plan"}
+            {loading ? "Submitting..." : "Submit Lesson Plan"}
           </button>
         </div>
       </form>
