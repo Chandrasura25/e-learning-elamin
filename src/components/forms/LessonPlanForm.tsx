@@ -16,7 +16,7 @@ import { DateRange } from "react-day-picker";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
 
-const lessonSchema = z.object({
+export const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
     from: z.date({ required_error: "From date is required" }),
