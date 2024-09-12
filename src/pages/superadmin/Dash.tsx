@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "@/api/axios";
 import { Watch } from "react-loader-spinner";
+import style from "@/styles/box.module.css";
+import firstBg from "@/assets/anime.gif";
+import secBg from "@/assets/write.svg"; 
+import thirdBg from "@/assets/book.gif";
 
 export const Dash = () => {
   const [notes, setNotes] = useState([]);
@@ -26,7 +30,7 @@ export const Dash = () => {
   const unapprovedNotes = notes.filter((note) => note.approved === 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 via-white to-blue-100 p-8">
+    <div className="min-h-screen">
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <Watch height="80" width="80" color="blue" ariaLabel="loading" />
@@ -34,21 +38,45 @@ export const Dash = () => {
       ) : (
         <div className="mx-auto">
           {/* Total Notes Count */}
-          <div className="bg-gradient-to-r from-blue-400 to-blue-500 flex justify-between items-center mb-4">
-            <div className="bg-white rounded-[10px] p-2">
-              <h2 className="text-3xl font-semibold text-center">
-                Total Notes Submitted: {notes.length}
-              </h2>
+          <div className={style.container}>
+            <div className={`relative ${style.box} flex-1 p-3`}>
+              <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4">
+                <img src={firstBg} alt="" />
+              </div>
+              <div className="flex flex-col justify-end items-end">
+                <h1 className="text-heading1-semibold text-gray-600">
+                  {unapprovedNotes.length}
+                </h1>
+                <p className="text-gray-600">
+                  Unapproved Note{unapprovedNotes.length > 1 ? "s" : null}
+                </p>
+              </div>
             </div>
-            <div className="bg-white rounded-[10px] p-2">
-              <h2 className="text-3xl font-semibold text-center">
-                Approved Notes: {approvedNotes.length}
-              </h2>
+            <div className={`relative ${style.box} flex-1 p-3`}>
+              <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
+                <img src={thirdBg} alt="" className="w-4/5 h-4/5" />
+              </div>
+              <div className="flex flex-col justify-end items-end">
+                <h1 className="text-heading1-semibold text-gray-600">
+                  {approvedNotes.length}
+                </h1>
+                <p className="text-gray-600">
+                  Approved Note{approvedNotes.length > 1 ? "s" : null}
+                </p>
+              </div>
             </div>
-            <div className="bg-white rounded-[10px] p-2">
-              <h2 className="text-3xl font-semibold text-center">
-                Unapproved Notes: {unapprovedNotes.length}
-              </h2>
+            <div className={`relative ${style.box} flex-1 p-3`}>
+              <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
+                <img src={secBg} alt="" />
+              </div>
+              <div className="flex flex-col justify-end items-end text-white">
+                <h1 className="text-heading1-semibold">
+                  {notes.length}
+                </h1>
+                <p className="">
+                  Total Note{notes.length > 1 ? "s" : null}
+                </p>
+              </div>
             </div>
           </div>
 
