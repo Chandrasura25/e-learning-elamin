@@ -23,7 +23,7 @@ export const supervisorSidebarLinks = [
     label: "Home",
   },
   {
-    imgURL: "/images/user.svg",
+    imgURL: "/images/notes.svg",
     route: "/all-notes",
     label: "Notes",
   },
