@@ -38,16 +38,16 @@ export const Dash = () => {
       ) : (
         <div className="mx-auto">
           {/* Total Notes Count */}
-          <div className={style.container}>
+          <div className={`${style.container} text-white`}>
             <div className={`relative ${style.box} flex-1 p-3`}>
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4">
                 <img src={firstBg} alt="" />
               </div>
               <div className="flex flex-col justify-end items-end">
-                <h1 className="text-heading1-semibold text-gray-600">
+                <h1 className="text-heading1-semibold">
                   {unapprovedNotes.length}
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-small-medium">
                   Unapproved Note{unapprovedNotes.length > 1 ? "s" : null}
                 </p>
               </div>
@@ -57,10 +57,10 @@ export const Dash = () => {
                 <img src={thirdBg} alt="" className="w-4/5 h-4/5" />
               </div>
               <div className="flex flex-col justify-end items-end">
-                <h1 className="text-heading1-semibold text-gray-600">
+                <h1 className="text-heading1-semibold">
                   {approvedNotes.length}
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-small-medium">
                   Approved Note{approvedNotes.length > 1 ? "s" : null}
                 </p>
               </div>
@@ -69,11 +69,11 @@ export const Dash = () => {
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
                 <img src={secBg} alt="" />
               </div>
-              <div className="flex flex-col justify-end items-end text-white">
+              <div className="flex flex-col justify-end items-end">
                 <h1 className="text-heading1-semibold">
                   {notes.length}
                 </h1>
-                <p className="">
+                <p className="text-small-medium">
                   Total Note{notes.length > 1 ? "s" : null}
                 </p>
               </div>
