@@ -5,6 +5,7 @@ import { Dash } from "./pages/superadmin/Dash";
 import { useAuth } from "./contexts/AuthContext";
 import Layout from "./pages/Layout";
 import CreateNote from "./pages/CreateNote";  
+import Note from "./pages/Note";
 
 function App() {
   const { role } = useAuth();
@@ -20,7 +21,7 @@ function App() {
             <>
               <Route path="/teacher-dashboard" element={<Dashboard />} />
               <Route path="/create-note" element={<CreateNote />} />
-              <Route path="/note/:id" element={<CreateNote />} />
+              <Route path="/note/:id" element={<Note />} />
             </>
           )}
         </Route>
