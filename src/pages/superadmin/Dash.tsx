@@ -81,7 +81,7 @@ export const Dash = () => {
           <div className="flex flex-col lg:flex-row justify-between gap-4 mt-6">
             {/* Approved Notes */}
             <div className="relative bg-white rounded-xl p-8 w-full lg:w-1/2 transition duration-300">
-              <h2 className="relative text-2xl font-semibold text-green-600 mb-2 z-10">
+              <h2 className="text-heading4-medium text-green-600 mb-2">
                 Approved Notes{" "}
                 <span className="text-gray-600">({approvedNotes.length})</span>
               </h2>
@@ -112,7 +112,7 @@ export const Dash = () => {
             </div>
             {/* Unapproved Notes */}
             <div className="relative bg-white rounded-xl p-8 w-full lg:w-1/2 transition duration-300">
-              <h2 className="relative text-2xl font-semibold text-red-600 mb-2 z-10">
+              <h2 className="text-heading4-medium text-red-600 mb-2">
                 Pending Notes{" "}
                 <span className="text-gray-600">
                   ({unapprovedNotes.length})
