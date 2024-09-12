@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -33,7 +33,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { axiosPrivate } from "@/api/axios";
-import { useAuth } from "@/contexts/AuthContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,27 +42,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-type Lesson = {
-  id: string;
-  week: string;
-  topic: string;
-  approved: number;
-};
-
-const data: Lesson[] = [
-  {
-    id: "1",
-    week: "Week 1",
-    topic: "Part of speech",
-    approved: 0,
-  },
-  // Add more data here
-];
-
-export const columns: ColumnDef<Lesson>[] = [
+export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -113,20 +96,25 @@ export const columns: ColumnDef<Lesson>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const lesson = row.original;
-      const [open, setOpen] = useState(false); // Manage dialog state
-
-      const handleDelete = async () => {
+      const [open, setOpen] = useState(false);
+      const [idToDelete, setIdToDelete] = useState<string | null>(null); // Track item id
+      const navigate = useNavigate();
+      const deleteNote = async (id: string) => {
         try {
-          await axiosPrivate.delete(`/lessons/${lesson.id}`);
-          // Optionally, update the UI after deletion
-          console.log("Deleted", lesson.id);
+          const values = {
+            id,
+            user_id: lesson.user_id,
+          }
+          const response = await axiosPrivate.post(`/delete-note`, values);
+          toast.success(response.data.message);
+          getNotes(); // Call getNotes after successful deletion
         } catch (error) {
+          toast.error(error.response.data.message);
           console.error("Error deleting lesson:", error);
         } finally {
           setOpen(false);
         }
       };
-
       return (
         <>
           <DropdownMenu>
@@ -138,13 +126,16 @@ export const columns: ColumnDef<Lesson>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => console.log("View", lesson.id)}>
+              <DropdownMenuItem onClick={() => {navigate(`/note/${lesson.id}`)}}>
                 View
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => console.log("Edit", lesson.id)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setOpen(true)}>
+              <DropdownMenuItem onClick={() => {
+                setIdToDelete(lesson.id); // Set the id of the item to delete
+                setOpen(true);
+              }}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -152,9 +143,6 @@ export const columns: ColumnDef<Lesson>[] = [
 
           {/* Alert Dialog */}
           <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline" className="ml-auto">Delete</Button>
-            </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -164,7 +152,13 @@ export const columns: ColumnDef<Lesson>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => setOpen(false)}>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                <AlertDialogAction
+                  onClick={() => {
+                    if (idToDelete) deleteNote(idToDelete); // Call delete function with id
+                  }}
+                >
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -174,11 +168,12 @@ export const columns: ColumnDef<Lesson>[] = [
   },
 ];
 
-function DashboardTable({ notes }) {
+function DashboardTable({ data, getNotes }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const columns = createColumns(getNotes);
 
   const table = useReactTable({
     data,
@@ -284,11 +279,7 @@ function DashboardTable({ notes }) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
+        <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
@@ -310,5 +301,4 @@ function DashboardTable({ notes }) {
     </div>
   );
 }
-
 export default DashboardTable;
