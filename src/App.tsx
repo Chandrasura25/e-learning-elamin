@@ -4,9 +4,10 @@ import Dashboard from "./pages/Dashboard";
 import { Dash } from "./pages/superadmin/Dash";
 import { useAuth } from "./contexts/AuthContext";
 import Layout from "./pages/Layout";
-import CreateNote from "./pages/CreateNote";  
+import CreateNote from "./pages/CreateNote";
 import Note from "./pages/Note";
 import EditNote from "./pages/EditNote";
+import AllNotes from "./pages/superadmin/AllNotes";
 
 function App() {
   const { role } = useAuth();
@@ -17,7 +18,10 @@ function App() {
 
         <Route path="/" element={<Layout />}>
           {role === "superadmin" ? (
-            <Route path="/supervisor-dashboard" element={<Dash />} />
+            <>
+              <Route path="/supervisor-dashboard" element={<Dash />} />
+              <Route path="/all-notes" element={<AllNotes />} />
+            </>
           ) : (
             <>
               <Route path="/teacher-dashboard" element={<Dashboard />} />
