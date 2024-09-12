@@ -9,16 +9,6 @@ export const sidebarLinks = [
     route: "/create-note",
     label: "Create Note",
   },
-  {
-    imgURL: "/images/explore.svg",
-    route: "/explore",
-    label: "Explore",
-  },
-  {
-    imgURL: "/images/user.svg",
-    route: "/profile",
-    label: "Profile",
-  },
 ];
 
 export const supervisorSidebarLinks = [
@@ -26,11 +16,6 @@ export const supervisorSidebarLinks = [
     imgURL: "/images/home.svg",
     route: "/supervisor-dashboard",
     label: "Home",
-  },
-  {
-    imgURL: "/images/shuffle.svg",
-    route: "/explore",
-    label: "Explore",
   },
   {
     imgURL: "/images/user.svg",
