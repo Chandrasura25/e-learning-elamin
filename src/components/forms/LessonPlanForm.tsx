@@ -22,7 +22,7 @@ const lessonSchema = z.object({
   }),
   subject: z.string().min(1, "Subject is required"),
   topic: z.string().min(1, "Topic is required"),
-  subTopic: z.string().min(1, "Sub-topic is required"),
+  sub_topic: z.string().min(1, "Sub-topic is required"),
   duration: z.string().min(1, "Duration is required"),
   class: z.string().min(1, "Class is required"),
   arm: z.string(),
@@ -120,7 +120,7 @@ export function LessonPlanForm() {
       date: "",
       subject: "",
       topic: "",
-      subTopic: "",
+      sub_topic: "",
       duration: "",
       class: "",
       arm: "",
@@ -333,12 +333,12 @@ export function LessonPlanForm() {
             </label>
             <input
               type="text"
-              {...register("subTopic")}
+              {...register("sub_topic")}
               className="mt-1 block w-full p-2 border rounded-md"
               placeholder="e.g., Photosynthesis"
             />
-            {errors.subTopic && (
-              <p className="text-red-600 text-sm">{errors.subTopic.message}</p>
+            {errors.sub_topic && (
+              <p className="text-red-600 text-sm">{errors.sub_topic.message}</p>
             )}
           </div>
         </div>
