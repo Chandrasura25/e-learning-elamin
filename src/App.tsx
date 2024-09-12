@@ -20,6 +20,7 @@ function App() {
             <>
               <Route path="/teacher-dashboard" element={<Dashboard />} />
               <Route path="/create-note" element={<CreateNote />} />
+              <Route path="/note/:id" element={<CreateNote />} />
             </>
           )}
         </Route>
