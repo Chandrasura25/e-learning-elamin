@@ -82,7 +82,6 @@ const lessonSchema = z.object({
 
 export function LessonPlanForm() {
   const { user } = useAuth()
-  console.log(user)
   const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
