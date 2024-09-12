@@ -9,20 +9,20 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true); // Add loading state
   const { user } = useAuth();
 
-  useEffect(() => {
-    const getNotes = async () => {
-      try {
-        if (user?.id) {
-          setLoading(true); // Set loading to true before fetching data
-          const response = await axiosPrivate.get(`/user/${user.id}`);
-          setNotes(response.data.notes); // Assuming the API returns an object of notes
-        }
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      } finally {
-        setLoading(false); // Set loading to false once data is fetched or if an error occurs
+  const getNotes = async () => {
+    try {
+      if (user?.id) {
+        setLoading(true); // Set loading to true before fetching data
+        const response = await axiosPrivate.get(`/user/${user.id}`);
+        setNotes(response.data.notes); // Assuming the API returns an object of notes
       }
-    };
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched or if an error occurs
+    }
+  };
+  useEffect(() => {
 
     getNotes();
   }, [user?.id, axiosPrivate]);
@@ -53,7 +53,7 @@ const Dashboard = () => {
             />
           </div>
         ) : (
-          <DashboardTable notes={notes} />
+          <DashboardTable data={notes} getNotes={getNotes} />
         )}
       </div>
     </div>
