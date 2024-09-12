@@ -5,27 +5,44 @@ import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "@/api/axios";
 import { Watch } from "react-loader-spinner";
+// Helper function to generate a color based on the subject name
+const getColorBySubject = (subject) => {
+  // Create a hash from the subject string
+  let hash = 0;
+  for (let i = 0; i < subject.length; i++) {
+    hash = subject.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // Convert hash to a color
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += ("00" + value.toString(16)).slice(-2);
+  }
+  return color;
+};
 
 function RightSidebar() {
   const { user, role } = useAuth();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const getAllNotes = async () => {
-    setLoading(true); // Set loading to true before fetching data
+    setLoading(true);
     try {
       const response = await axiosPrivate.get("/all-notes");
       setNotes(response.data.notes);
     } catch (error) {
       console.error("Error fetching notes:", error);
     } finally {
-      setLoading(false); // Set loading to false once data is fetched or if an error occurs
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     getAllNotes();
   }, [axiosPrivate]);
-  console.log(notes);
+
   return (
     <>
       {role === "Teacher" ? (
@@ -33,7 +50,10 @@ function RightSidebar() {
           <div className="">
             <h4>Lesson Plans</h4>
             <div className={styles.container}>
-              <div className={styles.box} style={{ "--clr": "#fc5f9b" }}>
+              <div
+                className={styles.box}
+                style={{ "--clr": getColorBySubject("Mathematics") }}
+              >
                 <div className={styles.content}>
                   <div className={styles.icon}>
                     <BookText />
@@ -78,7 +98,7 @@ function RightSidebar() {
                     <div
                       key={note.id}
                       className={styles.box}
-                      style={{ "--clr": "#fc5f9b" }}
+                      style={{ "--clr": getColorBySubject(note.subject) }}
                     >
                       <div className={styles.content}>
                         <div className={styles.icon}>
