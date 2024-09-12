@@ -3,7 +3,7 @@ import { axiosPrivate } from "@/api/axios";
 import { Watch } from "react-loader-spinner";
 import style from "@/styles/box.module.css";
 import firstBg from "@/assets/anime.gif";
-import secBg from "@/assets/write.svg"; 
+import secBg from "@/assets/allnotes.gif"; 
 import thirdBg from "@/assets/book.gif";
 
 export const Dash = () => {
@@ -39,7 +39,7 @@ export const Dash = () => {
         <div className="mx-auto">
           {/* Total Notes Count */}
           <div className={`${style.container} text-white`}>
-            <div className={`relative ${style.box} flex-1 p-3`}>
+            <div className={`relative ${style.box} sm:flex-1 p-3`}>
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4">
                 <img src={firstBg} alt="" />
               </div>
@@ -52,7 +52,7 @@ export const Dash = () => {
                 </p>
               </div>
             </div>
-            <div className={`relative ${style.box} flex-1 p-3`}>
+            <div className={`relative ${style.box} sm:flex-1 p-3`}>
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
                 <img src={thirdBg} alt="" className="w-4/5 h-4/5" />
               </div>
@@ -65,7 +65,7 @@ export const Dash = () => {
                 </p>
               </div>
             </div>
-            <div className={`relative ${style.box} flex-1 p-3`}>
+            <div className={`relative ${style.box} sm:flex-1 p-3`}>
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
                 <img src={secBg} alt="" />
               </div>
@@ -80,7 +80,7 @@ export const Dash = () => {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-8 mt-4">
             {/* Approved Notes */}
             <div className="relative bg-white rounded-3xl shadow-xl p-8 w-full lg:w-1/2 hover:shadow-2xl transition-shadow duration-300">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-green-100 rounded-3xl opacity-70"></div>
