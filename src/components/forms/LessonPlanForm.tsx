@@ -14,6 +14,8 @@ import { FormField } from "../ui/form";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
+
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
@@ -144,12 +146,12 @@ export function LessonPlanForm() {
     setLoading(true);
     try {
       const response = await axiosPrivate.post("/note", data);
-      console.log(response.data);
+      toast.success(response.data.message);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
-      // reset(); // Optional: Reset the form after submission
+      reset(); // Optional: Reset the form after submission
     }
   };
 
