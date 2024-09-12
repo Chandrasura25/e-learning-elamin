@@ -1,12 +1,13 @@
 import { axiosPrivate } from "@/api/axios";
 import SupervisorTable from "@/components/Tables/SupervisorTable";
+import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { Watch } from "react-loader-spinner";
 
 const AllNotes = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth(); 
   const getNotes = async () => {
     try {
       if (user?.id) {
