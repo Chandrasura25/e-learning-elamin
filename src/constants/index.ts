@@ -24,7 +24,7 @@ export const supervisorSidebarLinks = [
   },
   {
     imgURL: "/images/user.svg",
-    route: "/profile",
-    label: "Profile",
+    route: "/all-notes",
+    label: "Notes",
   },
 ];
