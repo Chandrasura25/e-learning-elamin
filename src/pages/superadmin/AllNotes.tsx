@@ -1,16 +1,16 @@
-import { axiosPrivate } from '@/api/axios';
-import SupervisorTable from '@/components/Tables/SupervisorTable';
-import { useEffect, useState } from 'react';
+import { axiosPrivate } from "@/api/axios";
+import SupervisorTable from "@/components/Tables/SupervisorTable";
+import { useEffect, useState } from "react";
 import { Watch } from "react-loader-spinner";
 
 const AllNotes = () => {
   const [notes, setNotes] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   const getNotes = async () => {
     try {
       if (user?.id) {
-        setLoading(true); 
+        setLoading(true);
         const response = await axiosPrivate.get(`/all-notes`);
         setNotes(response.data.notes); // Assuming the API returns an object of notes
       }
@@ -21,7 +21,6 @@ const AllNotes = () => {
     }
   };
   useEffect(() => {
-
     getNotes();
   }, [user?.id, axiosPrivate]);
 
@@ -29,11 +28,16 @@ const AllNotes = () => {
     <div>
       <div className="w-full h-fit py-3 px-8 flex justify-between items-center bg-white rounded-[16px]">
         <div className="">
-          <h2 className='text-heading2-semibold text-light-4'>Hi {user?.firstname}!</h2>
-          <p>Make sure to jot down a note about today’s lesson and any important details for the students!</p>
+          <h2 className="text-heading2-semibold text-light-4">
+            Hi {user?.firstname}!
+          </h2>
+          <p>
+            Be sure to review today’s lesson and take note of any important
+            details for further guidance and oversight.
+          </p>
         </div>
         <div className="">
-          <img src="/images/writing.gif" alt="" className='h-24' />
+          <img src="/images/writing.gif" alt="" className="h-24" />
         </div>
         <div className=""></div>
       </div>
@@ -55,7 +59,7 @@ const AllNotes = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AllNotes;
