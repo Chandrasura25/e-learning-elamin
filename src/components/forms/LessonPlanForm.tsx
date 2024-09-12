@@ -18,7 +18,7 @@ const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
     from: z.date({ required_error: "From date is required" }),
-    to: z.date({ required_error: "To date is required" }).nullable(), // Allow `to` to be null if only a single date is selected
+    to: z.date({ required_error: "To date is required" }).nullable(),
   }),
   subject: z.string().min(1, "Subject is required"),
   topic: z.string().min(1, "Topic is required"),
