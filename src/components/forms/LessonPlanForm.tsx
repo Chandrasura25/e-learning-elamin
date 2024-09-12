@@ -484,8 +484,9 @@ export function LessonPlanForm() {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-red-1 hover:bg-red-500 text-white font-semibold rounded-md"
+            disabled={loading}
           >
-            Submit Lesson Plan
+            {loading? "Submitting..." : "Submit Lesson Plan"}
           </button>
         </div>
       </form>
