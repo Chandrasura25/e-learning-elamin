@@ -3,7 +3,7 @@ import { axiosPrivate } from "@/api/axios";
 import { Watch } from "react-loader-spinner";
 import style from "@/styles/box.module.css";
 import firstBg from "@/assets/anime.gif";
-import secBg from "@/assets/allnotes.gif"; 
+import secBg from "@/assets/allnotes.gif";
 import thirdBg from "@/assets/book.gif";
 
 export const Dash = () => {
@@ -70,9 +70,7 @@ export const Dash = () => {
                 <img src={secBg} alt="" />
               </div>
               <div className="flex flex-col justify-end items-end">
-                <h1 className="text-heading1-semibold">
-                  {notes.length}
-                </h1>
+                <h1 className="text-heading1-semibold">{notes.length}</h1>
                 <p className="text-small-medium">
                   Total Note{notes.length > 1 ? "s" : null}
                 </p>
@@ -83,18 +81,10 @@ export const Dash = () => {
           <div className="flex flex-col lg:flex-row gap-8 mt-4">
             {/* Approved Notes */}
             <div className="relative bg-white rounded-3xl shadow-xl p-8 w-full lg:w-1/2 hover:shadow-2xl transition-shadow duration-300">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-green-100 rounded-3xl opacity-70"></div>
-
-              {/* Number of Approved Notes */}
               <h2 className="relative text-2xl font-semibold text-green-600 mb-2 z-10">
                 Approved Notes{" "}
                 <span className="text-gray-600">({approvedNotes.length})</span>
               </h2>
-
-              <p className="relative text-gray-500 text-sm mb-6 z-10">
-                Showing the latest 3 approved notes
-              </p>
-
               {approvedNotes.length > 0 ? (
                 approvedNotes.slice(-3).map((note, index) => (
                   <div
@@ -123,19 +113,12 @@ export const Dash = () => {
 
             {/* Unapproved Notes */}
             <div className="relative bg-white rounded-3xl shadow-xl p-8 w-full lg:w-1/2 hover:shadow-2xl transition-shadow duration-300">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-red-100 rounded-3xl opacity-70"></div>
-
-              {/* Number of Pending Notes */}
               <h2 className="relative text-2xl font-semibold text-red-600 mb-2 z-10">
                 Pending Notes{" "}
                 <span className="text-gray-600">
                   ({unapprovedNotes.length})
                 </span>
               </h2>
-
-              <p className="relative text-gray-500 text-sm mb-6 z-10">
-                Showing the latest 3 pending notes
-              </p>
 
               {unapprovedNotes.length > 0 ? (
                 unapprovedNotes.slice(-3).map((note, index) => (
