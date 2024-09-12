@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -32,8 +31,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { axiosPrivate } from "@/api/axios";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
@@ -86,25 +83,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
     enableHiding: false,
     cell: ({ row }) => {
       const lesson = row.original;
-      const [open, setOpen] = useState(false);
-      const [idToDelete, setIdToDelete] = useState<string | null>(null); // Track item id
       const navigate = useNavigate();
-      const deleteNote = async (id: string) => {
-        try {
-          const values = {
-            id,
-            user_id: lesson.user_id,
-          };
-          const response = await axiosPrivate.post(`/delete-note`, values);
-          toast.success(response.data.message);
-          getNotes(); // Call getNotes after successful deletion
-        } catch (error) {
-          toast.error(error.response.data.message);
-          console.error("Error deleting lesson:", error);
-        } finally {
-          setOpen(false);
-        }
-      };
       return (
         <>
           <DropdownMenu>
