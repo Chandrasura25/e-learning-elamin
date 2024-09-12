@@ -6,11 +6,12 @@ import firstBg from "@/assets/anime.gif";
 import secBg from "@/assets/allnotes.gif";
 import thirdBg from "@/assets/book.gif";
 import { BookmarkCheckIcon, BookMinusIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const Dash = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const getAllNotes = async () => {
     setLoading(true);
     try {
@@ -90,6 +91,7 @@ export const Dash = () => {
                 approvedNotes.slice(-3).map((note, index) => (
                   <div
                     key={index}
+                    onClick={() => navigate(`/supervisor/${note.id}`)}
                     className="relative mb-4 bg-gray-50 p-3 rounded-[16px]"
                   >
                     <div className="flex gap-3">
