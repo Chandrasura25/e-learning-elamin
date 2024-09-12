@@ -86,10 +86,7 @@ export function LessonPlanForm() {
   const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
-  });
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
   useEffect(() => {
     const getClasses = async () => {
       try {
