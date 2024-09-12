@@ -9,6 +9,11 @@ export const sidebarLinks = [
     route: "/create-note",
     label: "Create Note",
   },
+  {
+    imgURL: "/images/create.svg",
+    route: "/create-note",
+    label: "Approved Note",
+  }
 ];
 
 export const supervisorSidebarLinks = [
