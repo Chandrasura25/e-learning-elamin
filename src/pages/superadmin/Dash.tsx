@@ -94,7 +94,7 @@ export const Dash = () => {
                     onClick={() => navigate(`/supervisor/${note.id}`)}
                     className="relative mb-4 cursor-pointer bg-gray-50 p-3 rounded-[16px]"
                   >
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 items-center">
                       <BookmarkCheckIcon className="" />
                       <div className="flex flex-col">
                         <p className=" text-gray-800 text-small-medium">
@@ -132,7 +132,7 @@ export const Dash = () => {
                     onClick={() => navigate(`/supervisor/${note.id}`)}
                     className="relative mb-4 cursor-pointer bg-gray-50 p-3 rounded-[16px]"
                   >
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 items-center">
                       <BookMinusIcon className="" />
                       <div className="flex flex-col">
                         <p className=" text-gray-800 text-small-medium">
