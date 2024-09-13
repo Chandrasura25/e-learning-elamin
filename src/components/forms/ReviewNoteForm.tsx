@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 const ReviewNoteForm = ({ note }) => {
   const { user } = useAuth();
   const [supervisorComment, setSupervisorComment] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // Function to handle the "Approve" button click
   const handleApprove = async () => {
@@ -33,6 +34,11 @@ const ReviewNoteForm = ({ note }) => {
 
   // Function to handle submitting the supervisor comment
   const handleSubmitComment = async () => {
+    if (!supervisorComment) {
+      toast.error("Please enter a comment");
+      return;
+    }
+    setLoading(true); // Set loading to true before submitting the comment
     try {
       const response = await axiosPrivate.post("/comment", {
         id: note.id,
@@ -45,6 +51,8 @@ const ReviewNoteForm = ({ note }) => {
     } catch (error) {
       toast.error(error.response.data.message);
       console.error("Error submitting comment:", error);
+    } finally {
+      setLoading(false); // Set loading to false after submission
     }
   };
   return (
