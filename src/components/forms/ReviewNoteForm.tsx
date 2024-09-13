@@ -9,14 +9,21 @@ import { format } from "date-fns";
 import { Button } from "../ui/button";
 import { axiosPrivate } from "@/api/axios";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const ReviewNoteForm = ({ note }) => {  
+const ReviewNoteForm = ({ note }) => {
+  const { user } = useAuth();
   const [supervisorComment, setSupervisorComment] = useState("");
-  
+  const navigate = useNavigate();
   // Function to handle the "Approve" button click
   const handleApprove = async () => {
     try {
-      const response = await axiosPrivate.post("/approve", { noteId: note._id });
+      const response = await axiosPrivate.post("/approve", {
+        id: note.id,
+        userId: user.id,
+      });
       console.log("Approval successful:", response.data);
       // You can add any success feedback here (e.g., notifications)
     } catch (error) {
@@ -28,13 +35,15 @@ const ReviewNoteForm = ({ note }) => {
   const handleSubmitComment = async () => {
     try {
       const response = await axiosPrivate.post("/comment", {
-        noteId: note._id,
+        id: note.id,
         comment: supervisorComment,
       });
-      console.log("Comment submitted successfully:", response.data);
+      toast.success(response.data.message);
       // You can add any success feedback here (e.g., clearing the comment field)
       setSupervisorComment(""); // Clear the comment field after submission
+      navigate("/supervisor-dashboard"); // Redirect to the dashboard after submission
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error("Error submitting comment:", error);
     }
   };
