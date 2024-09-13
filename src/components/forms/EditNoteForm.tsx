@@ -18,7 +18,7 @@ const EditNoteForm = ({ note }) => {
   const [loading, setLoading] = useState(false);
   const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(note?.class || "");
+  const [selectedClass, setSelectedClass] = useState(note?.class_id || "");
   const [date, setDate] = useState<DateRange | undefined>({
     from: note?.date?.from ? new Date(note.date.from) : undefined,
     to: note?.date?.to ? new Date(note.date.to) : undefined,
@@ -60,7 +60,6 @@ const EditNoteForm = ({ note }) => {
     handleSubmit,
     formState: { errors },
     reset,
-    control,
   } = useForm({
     resolver: zodResolver(lessonSchema),
     defaultValues: {
@@ -184,17 +183,13 @@ const EditNoteForm = ({ note }) => {
               <PopoverTrigger asChild>
                 <button className="justify-start flex items-center text-left font-normal w-full p-2 border rounded-md">
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date?.from ? (
-                    date.to ? (
-                      <>
-                        {format(date.from, "LLL dd, y")} -{" "}
-                        {format(date.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(date.from, "LLL dd, y")
-                    )
+                  {note?.date_from && note?.date_to ? (
+                    <>
+                      {format(new Date(note.date_from), "LLL dd, y")} -{" "}
+                      {format(new Date(note.date_to), "LLL dd, y")}
+                    </>
                   ) : (
-                    <span>Pick a date</span>
+                    <span>No Date Available</span>
                   )}
                 </button>
               </PopoverTrigger>
@@ -276,6 +271,7 @@ const EditNoteForm = ({ note }) => {
             <select
               {...register("class")}
               onChange={handleClassChange}
+              value={selectedClass} 
               className="mt-1 block w-full p-2 border rounded-md"
             >
               <option value="">Select Class</option>
@@ -296,6 +292,7 @@ const EditNoteForm = ({ note }) => {
             </label>
             <select
               {...register("arm")}
+              value={note?.arm?.id}
               className="mt-1 block w-full p-2 border rounded-md"
             >
               <option value="">Select Arm</option>
