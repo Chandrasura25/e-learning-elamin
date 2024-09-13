@@ -1,5 +1,6 @@
 import { axiosPrivate } from "@/api/axios";
 import EditNoteForm from "@/components/forms/EditNoteForm";
+import ReviewNoteForm from "@/components/forms/ReviewNoteForm";
 import { useState, useEffect } from "react";
 import { Watch } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
@@ -39,7 +40,7 @@ const ReviewNote = () => {
           />
         </div>
       ) : (
-        <EditNoteForm note={plan} />
+        <ReviewNoteForm note={plan} />
       )}
     </div>
   );
