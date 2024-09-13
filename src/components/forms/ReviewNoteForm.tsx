@@ -17,6 +17,7 @@ const ReviewNoteForm = ({ note }) => {
   const { user } = useAuth();
   const [supervisorComment, setSupervisorComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isApproved, setIsApproved] = useState(note?.approved || false);
   const [approvedLoading, setApprovedLoading] = useState(false);
   const navigate = useNavigate();
   // Function to handle the "Approve" button click
@@ -27,7 +28,9 @@ const ReviewNoteForm = ({ note }) => {
         id: note.id,
         userId: user.id,
       });
+      console.log(response.data);
       toast.success(response.data.message);
+      setIsApproved(true);
     } catch (error) {
       toast.error(error.response.data.message);
       console.error("Error approving note:", error);
@@ -62,8 +65,16 @@ const ReviewNoteForm = ({ note }) => {
   return (
     <>
       <div className="flex justify-end items-end">
-        <Button className="bg-green-700" disabled={approvedLoading} onClick={handleApprove}>
-          {approvedLoading ? "Approving..." : "Approve"}
+        <Button
+          className={`bg-${isApproved ? "red-1": "green-700"}`}
+          disabled={approvedLoading || isApproved} // Disable if loading or already approved
+          onClick={handleApprove}
+        >
+          {isApproved
+            ? "Approved"
+            : approvedLoading
+            ? "Approving..."
+            : "Approve"}
         </Button>
       </div>
       <div className="max-w-4xl mx-auto p-8 bg-white rounded-md shadow-lg">
