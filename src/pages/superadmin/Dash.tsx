@@ -35,7 +35,7 @@ export const Dash = () => {
     <div className="">
       {loading ? (
         <div className="flex justify-center items-center h-screen">
-          <Watch height="80" width="80" color="blue" ariaLabel="loading" />
+          <Watch height="80" width="80" color="#B43330" ariaLabel="loading" />
         </div>
       ) : (
         <div className="mx-auto">
@@ -92,7 +92,7 @@ export const Dash = () => {
                   <div
                     key={index}
                     onClick={() => navigate(`/supervisor/${note.id}`)}
-                    className="relative mb-4 bg-gray-50 p-3 rounded-[16px]"
+                    className="relative mb-4 cursor-pointer bg-gray-50 p-3 rounded-[16px]"
                   >
                     <div className="flex gap-3">
                       <BookmarkCheckIcon className="" />
@@ -129,7 +129,8 @@ export const Dash = () => {
                 unapprovedNotes.slice(-3).map((note, index) => (
                   <div
                     key={index}
-                    className="relative mb-4 bg-gray-50 p-3 rounded-[16px]"
+                    onClick={() => navigate(`/supervisor/${note.id}`)}
+                    className="relative mb-4 cursor-pointer bg-gray-50 p-3 rounded-[16px]"
                   >
                     <div className="flex gap-3">
                       <BookMinusIcon className="" />
