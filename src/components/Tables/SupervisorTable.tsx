@@ -63,6 +63,11 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
     cell: ({ row }) => <div>{row.getValue("week")}</div>,
   },
   {
+    accessorKey: "subject",
+    header: "Subject",
+    cell: ({ row }) => <div>{row.getValue("subject")}</div>,
+  },
+  {
     accessorKey: "topic",
     header: "Topic",
     cell: ({ row }) => <div>{row.getValue("topic")}</div>,
