@@ -28,7 +28,7 @@ export const Dash = () => {
     getAllNotes();
   }, []);
 
-  const approvedNotes = notes.filter((note) => note.approved === 1);
+  const approvedNotes = notes.filter((note) => note.approved === true);
   const unapprovedNotes = notes.filter((note) => note.approved === 0);
 
   return (
