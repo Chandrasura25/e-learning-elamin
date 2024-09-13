@@ -1,10 +1,4 @@
-import {
-  CreditCard,
-  Keyboard,
-  LogOut,
-  Settings,
-  User
-} from "lucide-react";
+import { CreditCard, Keyboard, LogOut, Settings, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,35 +28,33 @@ export default function Topbar() {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-transparent border-none hover:bg-transparent hover:text-light-2">
-                    <img src="/images/user.svg" alt="" className="h-5 w-5 mr-1" />
-                    <span className="text-base1-semibold">{user?.firstname} {user?.lastname}</span>
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-none hover:bg-transparent hover:text-light-2"
+                >
+                  <img src="/images/user.svg" alt="" className="h-5 w-5 mr-1" />
+                  <span className="text-base1-semibold">
+                    {user?.firstname} {user?.lastname}
+                  </span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>{role}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    <span>Billing</span>
-                    <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Keyboard className="mr-2 h-4 w-4" />
-                    <span>Keyboard shortcuts</span>
-                    <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                  </DropdownMenuItem>
+                  {role === "Teacher" ? (
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Notes</span>
+                      <DropdownMenuShortcut>⇧⌘N</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                      <DropdownMenuShortcut>��G</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="cursor-pointer">
