@@ -42,7 +42,7 @@ function RightSidebar() {
   useEffect(() => {
     getAllNotes();
   }, [axiosPrivate]);
-
+  const unapprovedNotes = notes.filter((note) => note.approved === 0);
   return (
     <>
       {role === "Teacher" ? (
@@ -92,9 +92,11 @@ function RightSidebar() {
               </div>
             ) : (
               <>
+              <div className="">
                 <h4>Upcoming Notes</h4>
                 <div className={styles.container}>
-                  {notes.map((note) => (
+                  {unapprovedNotes.length > 0 ? 
+                  unapprovedNotes.slice(-3).map((note) => (
                     <div
                       key={note.id}
                       className={styles.box}
@@ -115,7 +117,8 @@ function RightSidebar() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  )): <p>There is no note available </p>}
+                  </div>
                 </div>
               </>
             )}
