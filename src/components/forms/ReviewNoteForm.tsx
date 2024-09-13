@@ -17,18 +17,22 @@ const ReviewNoteForm = ({ note }) => {
   const { user } = useAuth();
   const [supervisorComment, setSupervisorComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const [approvedLoading, setApprovedLoading] = useState(false);
   const navigate = useNavigate();
   // Function to handle the "Approve" button click
   const handleApprove = async () => {
+    setApprovedLoading(true); // Set loading to true before approving the note
     try {
       const response = await axiosPrivate.post("/approve", {
         id: note.id,
         userId: user.id,
       });
-      console.log("Approval successful:", response.data);
-      // You can add any success feedback here (e.g., notifications)
+      toast.success(response.data.message);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error("Error approving note:", error);
+    } finally {
+      setApprovedLoading(false); // Set loading to false after approval
     }
   };
 
@@ -58,8 +62,8 @@ const ReviewNoteForm = ({ note }) => {
   return (
     <>
       <div className="flex justify-end items-end">
-        <Button className="bg-green-700" onClick={handleApprove}>
-          Approve
+        <Button className="bg-green-700" disabled={approvedLoading} onClick={handleApprove}>
+          {approvedLoading ? "Approving..." : "Approve"}
         </Button>
       </div>
       <div className="max-w-4xl mx-auto p-8 bg-white rounded-md shadow-lg">
@@ -330,8 +334,12 @@ const ReviewNoteForm = ({ note }) => {
           </div>
 
           <div className="flex justify-end">
-            <Button className="bg-red-1" onClick={handleSubmitComment}>
-              Submit Comment
+            <Button
+              className="bg-red-1"
+              onClick={handleSubmitComment}
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Comment"}
             </Button>
           </div>
         </div>
