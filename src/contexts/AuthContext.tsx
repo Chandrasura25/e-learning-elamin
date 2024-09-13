@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }) => {
         password,
       });
       const { token, user, role } = response.data; // Ensure the backend sends the role directly
-      console.log(response.data);
 
       // Save the token, user, and role in localStorage
       localStorage.setItem("token", token);
