@@ -1,18 +1,16 @@
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/styles/login.module.css";
 import { BookText } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "@/api/axios";
 import { Watch } from "react-loader-spinner";
+
 // Helper function to generate a color based on the subject name
 const getColorBySubject = (subject) => {
-  // Create a hash from the subject string
   let hash = 0;
   for (let i = 0; i < subject.length; i++) {
     hash = subject.charCodeAt(i) + ((hash << 5) - hash);
   }
-  // Convert hash to a color
   let color = "#";
   for (let i = 0; i < 3; i++) {
     const value = (hash >> (i * 8)) & 0xff;
@@ -38,6 +36,7 @@ function RightSidebar() {
       setLoading(false);
     }
   };
+
   const getNotes = async () => {
     try {
       if (user?.id) {
@@ -51,45 +50,65 @@ function RightSidebar() {
       setLoading(false); // Set loading to false once data is fetched or if an error occurs
     }
   };
+
   useEffect(() => {
     if (role === "superadmin") {
       getAllNotes();
     } else {
       getNotes();
     }
-  }, [axiosPrivate]);
-  console.log(notes);
+  }, [role]); // Adjusted the dependency array to include role, not axiosPrivate
+
   const unapprovedNotes = notes.filter((note) => note.approved === 0);
+
   return (
     <>
       {role === "Teacher" ? (
         <section className="custom-scrollbar rightsidebar">
-          {notes.length > 0 ? (
-            <div className={styles.container}>
-              <h4 className="text-light-2 text-heading3-bold">Available Notes</h4>
-              {notes.slice(-5).map((note) => (
-                <div
-                  key={note.id}
-                  className={styles.box}
-                  style={{ "--clr": getColorBySubject(note.subject) }}
-                >
-                  <div className={styles.content}>
-                    <div className={styles.icon}>
-                      <BookText />
-                    </div>
-                    <div className={styles.text}>
-                      <h3>{note.subject}</h3>
-                      <p>{note?.topic}</p>
-                    </div>
-                    <div className="absolute text-tiny-medium text-light-2 bottom-2 right-1">
-                      <p>{new Date(note.created_at).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <Watch
+                height="80"
+                width="80"
+                radius="48"
+                color="#B43330"
+                ariaLabel="watch-loading"
+              />
             </div>
           ) : (
-            <p>There is no note available </p>
+            <>
+              {notes.length > 0 ? (
+                <div className={styles.container}>
+                  <h4 className="text-light-2 text-heading3-bold">
+                    Available Notes
+                  </h4>
+                  {notes.slice(-5).map((note) => (
+                    <div
+                      key={note.id}
+                      className={styles.box}
+                      style={{ "--clr": getColorBySubject(note.subject) }}
+                    >
+                      <div className={styles.content}>
+                        <div className={styles.icon}>
+                          <BookText />
+                        </div>
+                        <div className={styles.text}>
+                          <h3>{note.subject}</h3>
+                          <p>{note?.topic}</p>
+                        </div>
+                        <div className="absolute text-tiny-medium text-light-2 bottom-2 right-1">
+                          <p>
+                            {new Date(note.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>There are no notes available</p>
+              )}
+            </>
           )}
         </section>
       ) : (
@@ -103,8 +122,6 @@ function RightSidebar() {
                   radius="48"
                   color="#B43330"
                   ariaLabel="watch-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
                 />
               </div>
             ) : (
@@ -139,7 +156,7 @@ function RightSidebar() {
                         </div>
                       ))
                     ) : (
-                      <p>There is no note available </p>
+                      <p>There are no unapproved notes</p>
                     )}
                   </div>
                 </div>
