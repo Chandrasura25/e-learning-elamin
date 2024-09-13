@@ -8,6 +8,7 @@ import CreateNote from "./pages/CreateNote";
 import Note from "./pages/Note";
 import EditNote from "./pages/EditNote";
 import AllNotes from "./pages/superadmin/AllNotes";
+import ReviewNote from "./pages/superadmin/ReviewNote";
 
 function App() {
   const { role } = useAuth();
@@ -21,6 +22,7 @@ function App() {
             <>
               <Route path="/supervisor-dashboard" element={<Dash />} />
               <Route path="/all-notes" element={<AllNotes />} />
+              <Route path="/supervisor/:id" element={<ReviewNote />} />
             </>
           ) : (
             <>
