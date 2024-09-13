@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -97,7 +98,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => {
-                  navigate(`/note/${lesson.id}`);
+                  navigate(`/supervisor/${lesson.id}`);
                 }}
               >
                 Review
