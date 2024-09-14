@@ -236,6 +236,17 @@ const ViewForm = ({ note }) => {
             </div>
           ))}
 
+        {/* Reference */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700">
+            Reference
+          </label>
+          <textarea
+            value={note?.reference || "N/A"}
+            disabled
+            className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
+          />
+        </div>
         {/* Supervisor Comment */}
         {note?.supervisor_comment && (
           <div className="mb-6">
@@ -249,18 +260,6 @@ const ViewForm = ({ note }) => {
             />
           </div>
         )}
-
-        {/* Reference */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700">
-            Reference
-          </label>
-          <textarea
-            value={note?.reference || "N/A"}
-            disabled
-            className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
-          />
-        </div>
       </div>
     </div>
   );
