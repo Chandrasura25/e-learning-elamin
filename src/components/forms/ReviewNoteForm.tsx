@@ -15,7 +15,9 @@ import { useNavigate } from "react-router-dom";
 
 const ReviewNoteForm = ({ note }) => {
   const { user } = useAuth();
-  const [supervisorComment, setSupervisorComment] = useState("");
+  const [supervisorComment, setSupervisorComment] = useState(
+    note.supervisor_comment || ""
+  );
   const [loading, setLoading] = useState(false);
   const [isApproved, setIsApproved] = useState(note?.approved || false);
   const [approvedLoading, setApprovedLoading] = useState(false);
@@ -49,6 +51,7 @@ const ReviewNoteForm = ({ note }) => {
     try {
       const response = await axiosPrivate.post("/comment", {
         id: note.id,
+        userId: user.id,
         comment: supervisorComment,
       });
       toast.success(response.data.message);
@@ -66,7 +69,7 @@ const ReviewNoteForm = ({ note }) => {
     <>
       <div className="flex justify-end items-end">
         <Button
-          className={`bg-${isApproved ? "red-1": "green-700"}`}
+          className={`bg-${isApproved ? "red-1" : "green-700"}`}
           disabled={approvedLoading || isApproved} // Disable if loading or already approved
           onClick={handleApprove}
         >
@@ -308,20 +311,6 @@ const ReviewNoteForm = ({ note }) => {
               </div>
             ))}
 
-          {/* Supervisor Comment */}
-          {note?.supervisor_comment && (
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700">
-                Supervisor Comment
-              </label>
-              <textarea
-                value={note.supervisor_comment || "No comment"}
-                disabled
-                className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
-              />
-            </div>
-          )}
-
           {/* Reference */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700">
@@ -333,6 +322,8 @@ const ReviewNoteForm = ({ note }) => {
               className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
             />
           </div>
+          {/* Supervisor Comment */}
+
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700">
               Supervisor Comment
@@ -340,10 +331,9 @@ const ReviewNoteForm = ({ note }) => {
             <textarea
               value={supervisorComment}
               onChange={(e) => setSupervisorComment(e.target.value)}
-              className="mt-1 block w-full p-2 border rounded-md bg-white"
+              className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
             />
           </div>
-
           <div className="flex justify-end">
             <Button
               className="bg-red-1"
