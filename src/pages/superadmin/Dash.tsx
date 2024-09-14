@@ -69,7 +69,7 @@ export const Dash = () => {
             </div>
             <div className={`relative ${style.box} sm:flex-1 p-3`}>
               <div className="absolute h-[80px] w-[80px] rounded-full bg-white -left-4 -top-4 flex justify-center items-center">
-                <img src={secBg} alt="" />
+                <img src={secBg} alt="" className="w-[150px] h-[100px]" />
               </div>
               <div className="flex flex-col justify-end items-end">
                 <h1 className="text-heading1-semibold">{notes.length}</h1>
