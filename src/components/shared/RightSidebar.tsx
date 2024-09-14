@@ -127,7 +127,7 @@ function RightSidebar() {
             ) : (
               <>
                 <div className="">
-                  <h4>Upcoming Notes</h4>
+                  <h4 className='text-light-2 text-heading4-medium'>Upcoming Notes</h4>
                   <div className={styles.container}>
                     {unapprovedNotes.length > 0 ? (
                       unapprovedNotes.slice(-3).map((note) => (
@@ -156,7 +156,7 @@ function RightSidebar() {
                         </div>
                       ))
                     ) : (
-                      <p>There are no unapproved notes</p>
+                      <p className="text-body-medium text-light-3 mt-4">There are no pending notes</p>
                     )}
                   </div>
                 </div>
