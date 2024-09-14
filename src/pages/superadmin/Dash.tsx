@@ -27,7 +27,7 @@ export const Dash = () => {
   useEffect(() => {
     getAllNotes();
   }, []);
-
+  
   const approvedNotes = notes.filter((note) => note.approved === true);
   const unapprovedNotes = notes.filter((note) => note.approved === 0);
 
