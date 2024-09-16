@@ -84,8 +84,8 @@ export const lessonSchema = z.object({
 
 export function LessonPlanForm() {
   const { user } = useAuth();
-  const [classes, setClasses] = useState([]);
   const [arms, setArms] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<DateRange | undefined>(undefined);
@@ -302,47 +302,30 @@ export function LessonPlanForm() {
             )}
           </div>
         </div>
-
-        {/* Subject, Topic, and Sub-Topic */}
-        <div className="space-y-4">
-          <div>
+        {/* Class and Arm Dropdowns */}
+        <div className="">
+          <div className="">
             <label className="block text-sm font-medium text-gray-700">
-              Subject
+              Class
             </label>
-            <input
-              type="text"
-              {...register("subject")}
+            <select
+              {...register("class")}
+              onChange={handleClassChange}
               className="mt-1 block w-full p-2 border rounded-md"
-              placeholder="e.g., Science"
-            />
-            {errors.subject && (
-              <p className="text-red-600 text-sm">{errors.subject.message}</p>
+            >
+              <option value="">Select Class</option>
+              {classes.map((cls) => (
+                <option key={cls?.enrolclass?.id} value={cls?.enrolclass?.id}>
+                  {cls?.enrolclass?.name}
+                </option>
+              ))}
+            </select>
+            {errors.class && (
+              <p className="text-red-600 text-sm">{errors.class.message}</p>
             )}
           </div>
-          {/* Class and Arm Dropdowns */}
-          <div className="">
-            <div className="">
-              <label className="block text-sm font-medium text-gray-700">
-                Class
-              </label>
-              <select
-                {...register("class")}
-                onChange={handleClassChange}
-                className="mt-1 block w-full p-2 border rounded-md"
-              >
-                <option value="">Select Class</option>
-                {classes.map((cls) => (
-                  <option key={cls?.enrolclass?.id} value={cls?.enrolclass?.id}>
-                    {cls?.enrolclass?.name}
-                  </option>
-                ))}
-              </select>
-              {errors.class && (
-                <p className="text-red-600 text-sm">{errors.class.message}</p>
-              )}
-            </div>
 
-            {/* <div className="sm:flex-1">
+          {/* <div className="sm:flex-1">
               <label className="block text-sm font-medium text-gray-700">
                 Arm
               </label>
@@ -361,7 +344,24 @@ export function LessonPlanForm() {
                 <p className="text-red-600 text-sm">{errors.arm.message}</p>
               )}
             </div> */}
+        </div>
+        {/* Subject, Topic, and Sub-Topic */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Subject
+            </label>
+            <input
+              type="text"
+              {...register("subject")}
+              className="mt-1 block w-full p-2 border rounded-md"
+              placeholder="e.g., Science"
+            />
+            {errors.subject && (
+              <p className="text-red-600 text-sm">{errors.subject.message}</p>
+            )}
           </div>
+
           {/* Duration, and Age Group */}
           <div className="flex sm:flex-row flex-col sm:space-x-4">
             <div className="sm:flex-1">
