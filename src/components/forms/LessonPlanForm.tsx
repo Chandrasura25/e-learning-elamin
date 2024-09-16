@@ -142,7 +142,7 @@ export function LessonPlanForm() {
   });
 
   const onSubmit = async (data: any) => {
-    data.user_id= user?.id;
+    data.user_id = user?.id;
     setLoading(true);
     try {
       const response = await axiosPrivate.post("/note", data);
@@ -224,12 +224,18 @@ export function LessonPlanForm() {
             <label className="block text-sm font-medium text-gray-700">
               Week
             </label>
-            <input
-              type="text"
-              {...register("week")}
+            <select
+              id=""
               className="mt-1 block w-full p-2 border rounded-md"
-              placeholder="Week 1"
-            />
+              {...register("week")}
+            >
+              {Array.from({ length: 15 }, (_, i) => i + 1).map((week) => (
+                <option key={week} value={week}>
+                  Week {week}
+                </option>
+              ))}
+            </select>
+
             {errors.week && (
               <p className="text-red-600 text-sm">{errors.week.message}</p>
             )}
@@ -313,7 +319,84 @@ export function LessonPlanForm() {
               <p className="text-red-600 text-sm">{errors.subject.message}</p>
             )}
           </div>
+          {/* Class and Arm Dropdowns */}
+          <div className="">
+            <div className="">
+              <label className="block text-sm font-medium text-gray-700">
+                Class
+              </label>
+              <select
+                {...register("class")}
+                onChange={handleClassChange}
+                className="mt-1 block w-full p-2 border rounded-md"
+              >
+                <option value="">Select Class</option>
+                {classes.map((cls) => (
+                  <option key={cls?.enrolclass?.id} value={cls?.enrolclass?.id}>
+                    {cls?.enrolclass?.name}
+                  </option>
+                ))}
+              </select>
+              {errors.class && (
+                <p className="text-red-600 text-sm">{errors.class.message}</p>
+              )}
+            </div>
 
+            {/* <div className="sm:flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Arm
+              </label>
+              <select
+                {...register("arm")}
+                className="mt-1 block w-full p-2 border rounded-md"
+              >
+                <option value="">Select Arm</option>
+                {arms.map((arm) => (
+                  <option key={arm.id} value={arm.id}>
+                    {arm.name}
+                  </option>
+                ))}
+              </select>
+              {errors.arm && (
+                <p className="text-red-600 text-sm">{errors.arm.message}</p>
+              )}
+            </div> */}
+          </div>
+          {/* Duration, and Age Group */}
+          <div className="flex sm:flex-row flex-col sm:space-x-4">
+            <div className="sm:flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Duration
+              </label>
+              <input
+                type="text"
+                {...register("duration")}
+                className="mt-1 block w-full p-2 border rounded-md"
+                placeholder="e.g., 45 Minutes"
+              />
+              {errors.duration && (
+                <p className="text-red-600 text-sm">
+                  {errors.duration.message}
+                </p>
+              )}
+            </div>
+            <div className="sm:flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Age Group
+              </label>
+              <input
+                type="text"
+                {...register("age_group")}
+                className="mt-1 block w-full p-2 border rounded-md"
+                placeholder="e.g., 10-12 Years"
+              />
+              {errors.age_group && (
+                <p className="text-red-600 text-sm">
+                  {errors.age_group.message}
+                </p>
+              )}
+            </div>
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Topic
@@ -341,81 +424,6 @@ export function LessonPlanForm() {
             />
             {errors.sub_topic && (
               <p className="text-red-600 text-sm">{errors.sub_topic.message}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Class and Arm Dropdowns */}
-        <div className="flex sm:flex-row flex-col sm:space-x-4">
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Class
-            </label>
-            <select
-              {...register("class")}
-              onChange={handleClassChange}
-              className="mt-1 block w-full p-2 border rounded-md"
-            >
-              <option value="">Select Class</option>
-              {classes.map((cls) => (
-                <option key={cls?.enrolclass?.id} value={cls?.enrolclass?.id}>
-                  {cls?.enrolclass?.name}
-                </option>
-              ))}
-            </select>
-            {errors.class && (
-              <p className="text-red-600 text-sm">{errors.class.message}</p>
-            )}
-          </div>
-
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Arm
-            </label>
-            <select
-              {...register("arm")}
-              className="mt-1 block w-full p-2 border rounded-md"
-            >
-              <option value="">Select Arm</option>
-              {arms.map((arm) => (
-                <option key={arm.id} value={arm.id}>
-                  {arm.name}
-                </option>
-              ))}
-            </select>
-            {errors.arm && (
-              <p className="text-red-600 text-sm">{errors.arm.message}</p>
-            )}
-          </div>
-        </div>
-        {/* Duration, and Age Group */}
-        <div className="flex sm:flex-row flex-col sm:space-x-4">
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Duration
-            </label>
-            <input
-              type="text"
-              {...register("duration")}
-              className="mt-1 block w-full p-2 border rounded-md"
-              placeholder="e.g., 45 Minutes"
-            />
-            {errors.duration && (
-              <p className="text-red-600 text-sm">{errors.duration.message}</p>
-            )}
-          </div>
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Age Group
-            </label>
-            <input
-              type="text"
-              {...register("age_group")}
-              className="mt-1 block w-full p-2 border rounded-md"
-              placeholder="e.g., 10-12 Years"
-            />
-            {errors.age_group && (
-              <p className="text-red-600 text-sm">{errors.age_group.message}</p>
             )}
           </div>
         </div>
