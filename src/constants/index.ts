@@ -11,7 +11,7 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/images/create.svg",
-    route: "/create-note",
+    route: "/approve-note",
     label: "Approved Note",
   }
 ];
