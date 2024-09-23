@@ -12,6 +12,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
+
 const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
@@ -24,8 +25,8 @@ const lessonSchema = z.object({
   duration: z.string().min(1, "Duration is required"),
   class: z.string().min(1, "Class is required"),
   age_group: z.string().min(1, "Age group is required"),
-  objectives: z.array(z.string()).min(1, "At least one objective is required"),
-  resources: z.array(z.string()).min(1, "At least one resource is required"),
+  objectives: z.string().min(1, "At least one objective is required"),
+  resources: z.string().min(1, "At least one resource is required"),
   steps: z.array(
     z.object({
       mode: z.string().min(1, "Mode is required"),
