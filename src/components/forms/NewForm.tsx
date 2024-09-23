@@ -12,7 +12,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
-export const lessonSchema = z.object({
+const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
     from: z.date({ required_error: "From date is required" }),
@@ -23,7 +23,6 @@ export const lessonSchema = z.object({
   sub_topic: z.string().min(1, "Sub-topic is required"),
   duration: z.string().min(1, "Duration is required"),
   class: z.string().min(1, "Class is required"),
-  arm: z.string(),
   age_group: z.string().min(1, "Age group is required"),
   objectives: z.array(z.string()).min(1, "At least one objective is required"),
   resources: z.array(z.string()).min(1, "At least one resource is required"),
@@ -45,7 +44,6 @@ export const lessonSchema = z.object({
 export default function NewForm() {
   const { user } = useAuth();
   const [classes, setClasses] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(null);
   const [date, setDate] = useState<DateRange | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -66,7 +64,6 @@ export default function NewForm() {
       sub_topic: "",
       duration: "",
       class: "",
-      arm: "",
       age_group: "",
       objectives: [""],
       resources: [""],
@@ -93,11 +90,6 @@ export default function NewForm() {
     getClasses();
   }, []);
 
-  const handleClassChange = (e) => {
-    const classId = e.target.value;
-    setSelectedClass(classId);
-  };
-
   const nextStep = () => setCurrentStep((prev) => prev + 1);
   const prevStep = () => setCurrentStep((prev) => prev - 1);
 
@@ -112,6 +104,7 @@ export default function NewForm() {
   };
 
   const onSubmit = async (data: any) => {
+    console.log(data);
     data.user_id = user?.id;
     setLoading(true);
     try {
@@ -193,7 +186,6 @@ export default function NewForm() {
                             selected={date}
                             onSelect={(selectedDate) => {
                               if (selectedDate?.from && !selectedDate.to) {
-                                // Automatically set the "to" date 7 days from "from" date
                                 const autoToDate = addDays(
                                   selectedDate.from,
                                   7
@@ -207,7 +199,6 @@ export default function NewForm() {
                                   to: autoToDate,
                                 });
                               } else {
-                                // Use the selected "from" and "to" dates if both are selected
                                 setDate(selectedDate);
                                 field.onChange({
                                   from: selectedDate?.from || null,
@@ -297,7 +288,6 @@ export default function NewForm() {
                   </label>
                   <select
                     {...register("class")}
-                    onChange={handleClassChange}
                     className="bg-gray-50 border-none outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                     <option value="">Select Class</option>
