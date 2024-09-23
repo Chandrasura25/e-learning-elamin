@@ -6,6 +6,12 @@ import { z } from "zod";
 import { toast } from "react-toastify";
 import { useAuth } from "@/contexts/AuthContext";
 import style from "@/styles/login.module.css";
+import { FormField } from "../ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
 export const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
@@ -38,9 +44,9 @@ export const lessonSchema = z.object({
 
 export default function NewForm() {
   const { user } = useAuth();
-  const [arms, setArms] = useState([]);
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -90,10 +96,6 @@ export default function NewForm() {
   const handleClassChange = (e) => {
     const classId = e.target.value;
     setSelectedClass(classId);
-    const selectedClass = classes.find(
-      (c) => c.enrolclass?.id === Number(classId)
-    );
-    setArms(selectedClass?.arms || []);
   };
 
   const nextStep = () => setCurrentStep((prev) => prev + 1);
@@ -162,10 +164,62 @@ export default function NewForm() {
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Date
                   </label>
-                  <input
-                    type="date"
-                    {...register("date.from")}
-                    className="bg-gray-50 border-none outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  <FormField
+                    control={control}
+                    name="date"
+                    render={({ field }) => (
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button className="justify-start flex items-center text-left font-normal w-full p-2 border-none outline-none rounded-md bg-gray-50">
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date?.from ? (
+                              date.to ? (
+                                <>
+                                  {format(date.from, "LLL dd, y")} -{" "}
+                                  {format(date.to, "LLL dd, y")}
+                                </>
+                              ) : (
+                                format(date.from, "LLL dd, y")
+                              )
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="range"
+                            defaultMonth={date?.from}
+                            selected={date}
+                            onSelect={(selectedDate) => {
+                              if (selectedDate?.from && !selectedDate.to) {
+                                // Automatically set the "to" date 7 days from "from" date
+                                const autoToDate = addDays(
+                                  selectedDate.from,
+                                  7
+                                );
+                                setDate({
+                                  from: selectedDate.from,
+                                  to: autoToDate,
+                                });
+                                field.onChange({
+                                  from: selectedDate.from,
+                                  to: autoToDate,
+                                });
+                              } else {
+                                // Use the selected "from" and "to" dates if both are selected
+                                setDate(selectedDate);
+                                field.onChange({
+                                  from: selectedDate?.from || null,
+                                  to: selectedDate?.to || null,
+                                });
+                              }
+                            }}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    )}
                   />
                   {errors.date?.from && (
                     <p className="text-red-600">{errors.date.from.message}</p>
@@ -419,8 +473,9 @@ export default function NewForm() {
                 <button
                   type="submit"
                   className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-full text-small-regular text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  disabled={loading}
                 >
-                  Submit
+                  {loading ? "Submitting..." : "Submit"}
                 </button>
               </div>
             </>
