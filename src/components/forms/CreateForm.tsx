@@ -63,6 +63,7 @@ export const CreateForm = () => {
   const [arms, setArms] = useState([]);
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
+
   useEffect(() => {
     const getClasses = async () => {
       try {
@@ -70,11 +71,11 @@ export const CreateForm = () => {
         setClasses(response.data.classes);
       } catch (error) {
         console.error("Error fetching classes:", error);
-        // You could also show an error message to the user here
       }
     };
     getClasses();
   }, []);
+
   const handleClassChange = (e) => {
     const classId = e.target.value;
     setSelectedClass(classId);
@@ -83,6 +84,7 @@ export const CreateForm = () => {
     );
     setArms(selectedClass?.arms || []);
   };
+
   // Form handling for first step
   const formFirstStep = useForm({
     resolver: zodResolver(firstStepSchema),
@@ -127,7 +129,6 @@ export const CreateForm = () => {
     console.log(finalData);
     // You can submit finalData to your API or backend here.
   };
-
   return (
     <div className={style.body}>
       <div className={`${style.form} w-full`}>
@@ -148,22 +149,25 @@ export const CreateForm = () => {
                       className={`flex flex-col w-full md:w-1/2 items-start ${style.inputBox}`}
                     >
                       <FormLabel className={style.label}>Week</FormLabel>
-                      <FormControl>
-                        <Select {...field}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select the week" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {Array.from({ length: 15 }, (_, i) => i + 1).map(
-                              (week) => (
-                                <SelectItem key={week} value={`Week ${week}`}>
-                                  Week {week}
-                                </SelectItem>
-                              )
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {Array.from({ length: 15 }, (_, i) => i + 1).map(
+                            (week) => (
+                              <SelectItem key={week} value={`Week ${week}`}>
+                                Week {week}
+                              </SelectItem>
+                            )
+                          )}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -300,7 +304,7 @@ export const CreateForm = () => {
                   )}
                 />
                 <FormField
-                  control={formSecondStep.control}
+                  control={formFirstStep.control}
                   name="sub_topic"
                   render={({ field }) => (
                     <FormItem
@@ -334,7 +338,7 @@ export const CreateForm = () => {
             >
               <div className="flex md:flex-row flex-col gap-4 w-full">
                 <FormField
-                  control={formFirstStep.control}
+                  control={formSecondStep.control}
                   name="description"
                   render={({ field }) => (
                     <FormItem
