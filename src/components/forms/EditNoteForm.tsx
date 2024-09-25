@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,12 +12,11 @@ import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "@/api/axios";
-import { lessonSchema } from "./LessonPlanForm";
+import { lessonSchema } from "./NewForm";
 
 const EditNoteForm = ({ note }) => {
   const [loading, setLoading] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [arms, setArms] = useState([]);
   const [selectedClass, setSelectedClass] = useState(note?.class_id || "");
   const [date, setDate] = useState<DateRange | undefined>({
     from: note?.date?.from ? new Date(note.date.from) : undefined,
@@ -36,23 +35,9 @@ const EditNoteForm = ({ note }) => {
     getClasses();
   }, []);
 
-  // Preselect the arms when a class is selected on load
-  useEffect(() => {
-    if (selectedClass) {
-      const selectedClassObj = classes.find(
-        (cls) => cls.enrolclass?.id === Number(selectedClass)
-      );
-      setArms(selectedClassObj?.arms || []);
-    }
-  }, [selectedClass, classes]);
-
   const handleClassChange = (e) => {
     const classId = e.target.value;
     setSelectedClass(classId);
-    const selectedClass = classes.find(
-      (c) => c.enrolclass?.id === Number(classId)
-    );
-    setArms(selectedClass?.arms || []);
   };
 
   const {
@@ -70,24 +55,17 @@ const EditNoteForm = ({ note }) => {
       sub_topic: note?.sub_topic || "",
       duration: note?.duration || "",
       class: note?.class || "",
-      arm: note?.arm || "",
       age_group: note?.age_group || "",
       objectives: note?.objectives || [""],
       resources: note?.resources || [""],
-      steps: note?.steps || {
-        step1: { mode: "", teacherActivities: [""], studentActivities: [""] },
-        step2: { mode: "", teacherActivities: [""], studentActivities: [""] },
-        step3: { mode: "", teacherActivities: [""], studentActivities: [""] },
-        step4: { mode: "", teacherActivities: [""], studentActivities: [""] },
-        step5: { mode: "", teacherActivities: [""], studentActivities: [""] },
-      },
+      steps: [{ mode: "", teacherActivities: [""], studentActivities: [""] }],
       assignment: note?.assignment || "",
       reference: note?.reference || "",
     },
   });
 
   useEffect(() => {
-    reset(note); // Reset form with note data when the component mounts or note changes
+    reset(note); 
   }, [note, reset]);
 
   const onSubmit = async (data) => {
@@ -271,7 +249,7 @@ const EditNoteForm = ({ note }) => {
             <select
               {...register("class")}
               onChange={handleClassChange}
-              value={selectedClass} 
+              value={selectedClass}
               className="mt-1 block w-full p-2 border rounded-md"
             >
               <option value="">Select Class</option>
@@ -283,27 +261,6 @@ const EditNoteForm = ({ note }) => {
             </select>
             {errors.class && (
               <p className="text-red-600 text-sm">{errors.class.message}</p>
-            )}
-          </div>
-
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Arm
-            </label>
-            <select
-              {...register("arm")}
-              value={note?.arm?.id}
-              className="mt-1 block w-full p-2 border rounded-md"
-            >
-              <option value="">Select Arm</option>
-              {arms.map((arm) => (
-                <option key={arm.id} value={arm.id}>
-                  {arm.name}
-                </option>
-              ))}
-            </select>
-            {errors.arm && (
-              <p className="text-red-600 text-sm">{errors.arm.message}</p>
             )}
           </div>
         </div>
@@ -372,9 +329,10 @@ const EditNoteForm = ({ note }) => {
           )}
         </div>
 
-        {["step1", "step2", "step3", "step4", "step5"].map((step, index) =>
-          renderStepFields(step, index)
-        )}
+        {note?.steps &&
+          Object.keys(note.steps).map((step, index) =>
+            renderStepFields(step, index)
+          )}
 
         <div>
           <label className="block text-sm font-medium text-gray-700">
