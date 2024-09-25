@@ -13,7 +13,7 @@ import { Calendar } from "../ui/calendar";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
-const lessonSchema = z.object({
+export const lessonSchema = z.object({
   week: z.string().min(1, "Week information is required"),
   date: z.object({
     from: z.date({ required_error: "From date is required" }),
