@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -71,7 +71,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
   {
     accessorKey: "week",
     header: "Week",
-    cell: ({ row }) => <div>{row.getValue("week")}</div>,
+    cell: ({ row }) => <div>Week {row.getValue("week")}</div>,
   },
   {
     accessorKey: "topic",
@@ -85,7 +85,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
       const approved = row.getValue("approved");
       return (
         <div className="capitalize">
-          {approved === 0 ? "In Review" : "Approved"}
+          {approved === 0 || approved === false ? "In Review" : "Approved"}
         </div>
       );
     },
@@ -120,7 +120,7 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
           const values = {
             id,
             user_id: lesson.user_id,
-          }
+          };
           const response = await axiosPrivate.post(`/delete-note`, values);
           toast.success(response.data.message);
           getNotes(); // Call getNotes after successful deletion
@@ -142,16 +142,26 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => {navigate(`/note/${lesson.id}`)}}>
+              <DropdownMenuItem
+                onClick={() => {
+                  navigate(`/note/${lesson.id}`);
+                }}
+              >
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {navigate(`/edit-note/${lesson.id}`)}}>
+              <DropdownMenuItem
+                onClick={() => {
+                  navigate(`/edit-note/${lesson.id}`);
+                }}
+              >
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {
-                setIdToDelete(lesson.id); // Set the id of the item to delete
-                setOpen(true);
-              }}>
+              <DropdownMenuItem
+                onClick={() => {
+                  setIdToDelete(lesson.id); // Set the id of the item to delete
+                  setOpen(true);
+                }}
+              >
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -163,11 +173,14 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action will permanently delete the lesson. This cannot be undone.
+                  This action will permanently delete the lesson. This cannot be
+                  undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setOpen(false)}>Cancel</AlertDialogCancel>
+                <AlertDialogCancel onClick={() => setOpen(false)}>
+                  Cancel
+                </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => {
                     if (idToDelete) deleteNote(idToDelete); // Call delete function with id
@@ -186,11 +199,14 @@ export const createColumns = (getNotes: () => void): ColumnDef<Lesson>[] => [
 
 function DashboardTable({ data, getNotes }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const columns = createColumns(getNotes);
-
+  console.log(data);
   const table = useReactTable({
     data,
     columns,
@@ -236,9 +252,7 @@ function DashboardTable({ data, getNotes }) {
                   key={column.id}
                   className="capitalize"
                   checked={column.getIsVisible()}
-                  onCheckedChange={(value) =>
-                    column.toggleVisibility(!!value)
-                  }
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
                 >
                   {column.id}
                 </DropdownMenuCheckboxItem>
