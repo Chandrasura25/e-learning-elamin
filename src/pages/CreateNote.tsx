@@ -1,5 +1,3 @@
-import { CreateForm } from '@/components/forms/CreateForm';
-import { LessonPlanForm } from '@/components/forms/LessonPlanForm';
 import NewForm from '@/components/forms/NewForm';
 
 const CreateNote = () => {
