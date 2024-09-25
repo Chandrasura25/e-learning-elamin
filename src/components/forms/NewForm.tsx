@@ -25,8 +25,8 @@ const lessonSchema = z.object({
   duration: z.string().min(1, "Duration is required"),
   class: z.string().min(1, "Class is required"),
   age_group: z.string().min(1, "Age group is required"),
-  objectives: z.string().min(1, "At least one objective is required"),
-  resources: z.string().min(1, "At least one resource is required"),
+  objectives: z.array(z.string()).min(1, "At least one objective is required"),
+  resources: z.array(z.string()).min(1, "At least one resource is required"),
   steps: z.array(
     z.object({
       mode: z.string().min(1, "Mode is required"),
@@ -357,7 +357,36 @@ export default function NewForm() {
                   )}
                 </div>
               </div>
-
+              <div className="flex md:flex-row flex-col gap-4">
+                <div
+                  className={`flex flex-col w-full md:w-1/2 items-start ${style.inputBox}`}
+                >
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Assignment
+                  </label>
+                  <input
+                    {...register("assignment")}
+                    className="bg-gray-50 border-none outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                  {errors.assignment && (
+                    <p className="text-red-600">{errors.assignment.message}</p>
+                  )}
+                </div>
+                <div
+                  className={`flex flex-col w-full md:w-1/2 items-start ${style.inputBox}`}
+                >
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Reference
+                  </label>
+                  <input
+                    {...register("reference")}
+                    className="bg-gray-50 border-none outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                  {errors.reference && (
+                    <p className="text-red-600">{errors.reference.message}</p>
+                  )}
+                </div>
+              </div>
               <div className="flex justify-center items-center">
                 <button
                   type="button"
