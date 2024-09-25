@@ -133,25 +133,14 @@ const ViewForm = ({ note }) => {
             />
           </div>
         </div>
-        <div className="flex sm:flex-row flex-col sm:space-x-4">
-          <div className="sm:flex-1">
+        <div className="flex">
+          <div className="w-full">
             <label className="block text-sm font-medium text-gray-700">
               Class
             </label>
             <input
               type="text"
               value={note?.enrol_class?.name || "N/A"}
-              disabled
-              className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
-            />
-          </div>
-          <div className="sm:flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Arm
-            </label>
-            <input
-              type="text"
-              value={note?.arm?.name || "N/A"}
               disabled
               className="mt-1 block w-full p-2 border rounded-md bg-gray-200"
             />
